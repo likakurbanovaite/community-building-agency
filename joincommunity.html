@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Join Community | Community Building Agency</title>
+  <meta name="description" content="Join a community of independent designers, boutiques and emerging fashion labels building loyal audiences together." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,560;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style2.css" />
+
+  <!-- UMAMI.IS tracking -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="b16bccfe-6395-4036-8e7f-8465aa63abf2"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X173NLXJ33"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X173NLXJ33');
+  </script>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a class="logo" href="index.html">
+        <img class="logo-mark" src="assets/CBA_sphere.png" alt="Community Building Agency">
+        <span class="logo-text">Community Building Agency</span>
+      </a>
+
+      <nav class="nav-links" id="primary-nav">
+        <a href="index.html">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="joincommunity.html" aria-current="page">Join Community</a>
+        <a href="#cta" class="nav-cta book-btn">Book Free Session</a>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- PAGE HERO -->
+    <section class="section page-hero">
+      <div class="container section-inner fade-in">
+        <div class="section-header center">
+          <p class="eyebrow center">Join Community</p>
+          <h1>You don't have to build it alone.</h1>
+          <p class="lead max-60" style="margin-left:auto;margin-right:auto;">
+            A space for independent designers, boutiques and emerging labels who are
+            growing their brands through people rather than paid reach.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT YOU GET -->
+    <section class="section bg-soft" style="padding-top:0;">
+      <div class="container section-inner fade-in">
+        <div class="two-col">
+          <div>
+            <p class="eyebrow">What's inside</p>
+            <h2>A room full of people <span class="grad-text">solving the same problem.</span></h2>
+            <p class="lead">
+              We're bringing together fashion founders and creative teams who care about
+              loyalty, connection and building something that lasts longer than a campaign.
+            </p>
+          </div>
+          <div>
+            <div class="benefit-list">
+              <div class="benefit"><span class="tick">✓</span> Peer conversations with other fashion founders</div>
+              <div class="benefit"><span class="tick">✓</span> Practical community-building resources and templates</div>
+              <div class="benefit"><span class="tick">✓</span> Invitations to online and in-person gatherings</div>
+              <div class="benefit"><span class="tick">✓</span> Early access to new frameworks as we develop them</div>
+              <div class="benefit"><span class="tick">✓</span> Discounted rates for founding members</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGN UP -->
+    <section class="section" id="join">
+      <div class="container section-inner fade-in">
+        <div class="section-header center">
+          <p class="eyebrow center">Request an invite</p>
+          <h2>Join the community.</h2>
+          <p class="lead max-60" style="margin-left:auto;margin-right:auto;">
+            The community is forming now. Tell us a little about you and we'll be in touch
+            with an invitation as places open up.
+          </p>
+        </div>
+
+        <div class="panel">
+          <form id="joinForm" class="survey-form" style="margin-top:0;">
+            <input type="hidden" name="formType" value="join-community">
+
+            <label class="field">
+              <span class="field-label">Your name</span>
+              <input type="text" name="name" required placeholder="Jane Doe" />
+            </label>
+
+            <label class="field">
+              <span class="field-label">Email</span>
+              <input type="email" name="email" required placeholder="you@brand.com" />
+            </label>
+
+            <label class="field">
+              <span class="field-label">Brand or business (optional)</span>
+              <input type="text" name="brand" placeholder="Your label, boutique or studio" />
+            </label>
+
+            <fieldset class="field">
+              <legend class="field-label">What best describes you?</legend>
+              <div class="radio-grid">
+                <label><input type="radio" name="role" value="Independent designer" required> Independent designer</label>
+                <label><input type="radio" name="role" value="Boutique owner"> Boutique owner</label>
+                <label><input type="radio" name="role" value="Emerging fashion label"> Emerging fashion label</label>
+                <label><input type="radio" name="role" value="Concept store"> Concept store</label>
+                <label><input type="radio" name="role" value="Sustainable brand"> Sustainable brand</label>
+                <label><input type="radio" name="role" value="Something else"> Something else</label>
+              </div>
+            </fieldset>
+
+            <label class="field">
+              <span class="field-label">What would you most like to get out of the community?</span>
+              <textarea name="hopes" rows="4" placeholder="Type your answer..."></textarea>
+            </label>
+
+            <label class="consent">
+              <input type="checkbox" name="consent" value="yes" required>
+              <span>
+                I consent to being contacted about the community and to my responses being
+                stored securely for this purpose.
+              </span>
+            </label>
+
+            <button class="btn-primary btn-full btn-large" type="submit">Request an invite</button>
+            <p id="joinStatus" class="form-status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BLOCK -->
+    <section class="section section-cta" id="cta">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="container section-inner fade-in">
+        <div class="cta-layout">
+          <div class="cta-box">
+            <p class="eyebrow">Working with us</p>
+            <h2>Looking for hands-on support for your brand?</h2>
+            <p class="body">
+              The community is free to join. If you'd like dedicated strategy work for your
+              business, book an introductory session and we'll walk you through the options.
+            </p>
+            <div class="cta-actions">
+              <a href="#cta" class="btn-primary btn-large book-btn">Book Free Consultation</a>
+              <p class="cta-note">
+                Prefer to start with questions? Reach out and we'll help you find the right entry point.
+              </p>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h3>Contact Information</h3>
+            <div>
+              <p class="contact-label">Email</p>
+              <p style="margin:0;"><a href="mailto:communitybuildingagency@gmail.com">communitybuildingagency@gmail.com</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-meta">© <span id="year"></span> Community Building Agency. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
