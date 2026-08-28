@@ -29,24 +29,19 @@
   <!-- NAVBAR -->
   <header class="site-header">
     <div class="container nav-inner">
-      <div class="logo">
-        <img class="logo-mark" src="CBA_sphere.png" alt="Community Building Agency">
-        <span class="logo-text">COMMUNITY BUILDING AGENCY</span>
-      </div>
+      <a class="logo" href="index.html">
+        <img class="logo-mark" src="assets/CBA_sphere.png" alt="Community Building Agency">
+        <span class="logo-text">Community Building Agency</span>
+      </a>
 
-      <nav class="nav-links">
-        <a href="#about-us">About Us</a>
-        <a href="#who-we-help">Who We Help</a>
-        <a href="#what-we-do">What We Do</a>
-        <a href="#process">How It Works</a>
-        <a href="#services">Services</a>
-        <a href="#why-community">Why Community</a>
-        <a href="#why-us">Why Us</a>
-        <a href="#founder">Founder</a>
+      <nav class="nav-links" id="primary-nav">
+        <a href="index.html" aria-current="page">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="joincommunity.html">Join Community</a>
         <a href="#cta" class="nav-cta book-btn">Book Free Session</a>
       </nav>
 
-      <button class="nav-toggle" aria-label="Toggle navigation">
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
         <span></span><span></span>
       </button>
     </div>
@@ -70,7 +65,7 @@
         <div class="hero-visual fade-in-delayed">
           <div class="hero-video-frame">
             <video class="hero-video" autoplay muted loop playsinline>
-              <source src="hero-bg.mp4" type="video/mp4">
+              <source src="assets/hero-bg.mp4" type="video/mp4">
             </video>
           </div>
 
@@ -208,71 +203,25 @@
     <!-- VISUAL STRIP -->
     <section class="visual-strip section" style="padding-bottom:0;">
       <div class="visual-strip-grid fade-in">
-        <img src="s2.JPG" alt="Community visual 1">
-        <img src="3.png" alt="Community visual 2">
-        <img src="4.JPG" alt="Community visual 3">
+        <img src="assets/s2.JPG" alt="Community visual 1">
+        <img src="assets/3.png" alt="Community visual 2">
+        <img src="assets/4.JPG" alt="Community visual 3">
       </div>
     </section>
 
-    <!-- SERVICES -->
+    <!-- SERVICES TEASER — full detail lives on services.html -->
     <section class="section" id="services">
       <div class="container section-inner fade-in">
         <div class="section-header center">
           <p class="eyebrow center">Our Services</p>
           <h2>Ways to work together.</h2>
+          <p class="lead max-60" style="margin-left:auto;margin-right:auto;">
+            From a single strategy session to a fully implemented community ecosystem —
+            three ways to bring community into your brand.
+          </p>
         </div>
-
-        <div class="service-grid">
-          <article class="service-card">
-            <h3>Introductory Session</h3>
-            <p class="body">A short session to understand our framework and your options.</p>
-            <ul class="service-list">
-              <li>Walk you through the methodology we use</li>
-              <li>Explore your brand's current situation</li>
-              <li>Outline which service — if any — would be the best fit</li>
-            </ul>
-            <p class="service-outcome">
-              <strong>Outcome:</strong> A clear understanding of how community strategy works, where your
-              brand currently stands, and what support would be most effective for you.
-            </p>
-            <a href="#cta" class="btn-primary book-btn">Book Free Consultation</a>
-          </article>
-
-          <article class="service-card">
-            <h3>Strategic Community Report</h3>
-            <p class="body">For brands who are curious about community but unsure where to start.</p>
-            <ul class="service-list">
-              <li>Analyse your current brand situation</li>
-              <li>Identify gaps</li>
-              <li>Outline a personalised next-step strategy</li>
-            </ul>
-            <p class="service-outcome">
-              <strong>Outcome:</strong> Clear direction and a personalised strategy you can immediately put into action.
-            </p>
-            <div class="service-price">
-              <span class="price">£2,000</span>
-              <span class="price-note">Optional payment plan</span>
-            </div>
-          </article>
-
-          <article class="service-card featured">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">
-              <h3 style="margin:0;">Implementation Management</h3>
-              <span class="service-tag">Core</span>
-            </div>
-            <p class="body">
-              Your full strategy — built and implemented for you. An ongoing partnership where we
-              design your complete community ecosystem and actively implement every part of it with you.
-            </p>
-            <p class="service-outcome">
-              <strong>Outcome:</strong> A functioning community model running inside your brand — built,
-              activated, and supported by us on a continuous contract.
-            </p>
-            <div class="service-price">
-              <span class="price">From £1,200/month</span>
-              <span class="price-note">Minimum 3-month project</span>
-            </div>
-          </article>
+        <div style="text-align:center;position:relative;z-index:1;">
+          <a href="services.html" class="btn-primary">View our services</a>
         </div>
       </div>
     </section>
@@ -310,7 +259,7 @@
           <p class="eyebrow center">Why Us</p>
           <h2>Trusted by the following brands.</h2>
         </div>
-        <img class="logos-img" src="logos.png" alt="Trusted brands">
+        <img class="logos-img" src="assets/logos.png" alt="Trusted brands">
       </div>
     </section>
 
@@ -324,7 +273,7 @@
         </div>
         <div class="founder-inner">
           <div class="founder-photo-wrap">
-            <img class="founder-photo" src="Founder_ProfileImg.png" alt="Lika Kurbanovaite, Founder">
+            <img class="founder-photo" src="assets/Founder_ProfileImg.png" alt="Lika Kurbanovaite, Founder">
           </div>
           <div class="founder-text">
             <p>
@@ -383,196 +332,6 @@
     </div>
   </footer>
 
-  <!-- SURVEY MODAL -->
-  <div id="surveyModal" class="modal" aria-hidden="true">
-    <div class="modal-backdrop" data-close="true"></div>
-
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="surveyTitle">
-      <button class="modal-close" type="button" aria-label="Close survey" data-close="true">×</button>
-
-      <div class="modal-content">
-        <p class="modal-eyebrow">Quick survey</p>
-        <h2 id="surveyTitle">You're early — and that's a good thing.</h2>
-
-        <p class="modal-body">
-          Community Building Agency is currently exploring a new way of supporting fashion businesses.
-          The service is still taking shape. This page is an early prototype designed to understand what fashion brands actually need and whether this kind of support would be valuable.
-        </p>
-
-        <h3 class="modal-subtitle">What's Next?</h3>
-        <p class="modal-body">
-          By answering a few short questions, you'll help shape a service built around real challenges fashion businesses face.
-          Early contributors will receive up to 50% discount as first clients when the business launches.
-        </p>
-
-        <form id="surveyForm" class="survey-form">
-          <label class="field">
-            <span class="field-label">1. What kind of fashion business do you run, and what is your role? How do you see the future of it?</span>
-            <textarea name="q1" required rows="4" placeholder="Type your answer..."></textarea>
-          </label>
-
-          <label class="field">
-            <span class="field-label">2. What are the biggest challenges your brand is facing at the moment? And what kind of support would be most helpful for your business at this stage?</span>
-            <textarea name="q2" required rows="4" placeholder="Type your answer..."></textarea>
-          </label>
-
-          <label class="field">
-            <span class="field-label">3. What would make you confident trying a new way to attract, retain and connect with customers? What might stop you?</span>
-            <textarea name="q3" required rows="4" placeholder="Type your answer..."></textarea>
-          </label>
-
-          <fieldset class="field">
-            <legend class="field-label">4. If a service helped you build a strong community, what monthly budget would feel realistic for you?</legend>
-            <div class="radio-grid">
-              <label><input type="radio" name="budget" value="£0–£200" required> £0–£200</label>
-              <label><input type="radio" name="budget" value="£200–£500"> £200–£500</label>
-              <label><input type="radio" name="budget" value="£500–£1,000"> £500–£1,000</label>
-              <label><input type="radio" name="budget" value="£1,000–£2,000"> £1,000–£2,000</label>
-              <label><input type="radio" name="budget" value="£2,000–£5,000"> £2,000–£5,000</label>
-              <label><input type="radio" name="budget" value="£5,000–£10,000"> £5,000–£10,000</label>
-              <label><input type="radio" name="budget" value="£10,000+"> £10,000+</label>
-              <label><input type="radio" name="budget" value="Not sure yet"> Not sure yet</label>
-            </div>
-          </fieldset>
-
-          <label class="consent">
-            <input type="checkbox" name="consent" value="yes" required>
-            <span>
-              I confirm that I consent to my responses being used for research purposes only.
-              All data will be stored securely and anonymised.
-            </span>
-          </label>
-
-          <div class="divider"></div>
-
-          <h3 class="modal-subtitle">Stay in the loop</h3>
-          <p class="modal-body">
-            If you'd like to be the first to hear when the business launches, please leave your email below.
-            Early contributors will receive up to 50% discount as first clients when the business launches.
-          </p>
-
-          <label class="field">
-            <span class="field-label">Email (optional)</span>
-            <input type="email" name="email" placeholder="you@brand.com" />
-          </label>
-
-          <button class="btn-primary btn-full btn-large" type="submit">Submit</button>
-          <p id="surveyStatus" class="form-status" aria-live="polite"></p>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // ======= SETTINGS (Google Apps Script Web App URL) =======
-    const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvO0OuGNYXB66K-bJdz1ZqUuZ_vxhk0VYnO1VVUV4gQYnGSNj15FxEjTXsoJ4cccXMEw/exec";
-
-    // Mobile nav toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    navToggle.addEventListener('click', () => {
-      navToggle.classList.toggle('open');
-      navLinks.classList.toggle('open');
-    });
-
-    // Fade-in on scroll
-    const faders = document.querySelectorAll('.fade-in, .fade-in-delayed');
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.15 }
-    );
-    faders.forEach(el => observer.observe(el));
-
-    // Year in footer
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // ======= Survey modal logic =======
-    const modal = document.getElementById('surveyModal');
-    const form = document.getElementById('surveyForm');
-    const statusEl = document.getElementById('surveyStatus');
-
-    function openModal() {
-      modal.classList.add('is-open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      navToggle.classList.remove('open');
-      navLinks.classList.remove('open');
-      const firstField = form.querySelector('textarea, input');
-      if (firstField) firstField.focus();
-    }
-
-    function closeModal() {
-      modal.classList.remove('is-open');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      statusEl.textContent = "";
-    }
-
-    document.querySelectorAll('.book-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        openModal();
-        if (typeof gtag === 'function') {
-          gtag('event', 'book_now_click', {
-            event_category: 'engagement',
-            event_label: 'Book Button -> Survey Open'
-          });
-        }
-      });
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target && e.target.dataset && e.target.dataset.close === 'true') {
-        closeModal();
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      if (!GOOGLE_APPS_SCRIPT_URL || GOOGLE_APPS_SCRIPT_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
-        statusEl.textContent = "Please paste your Google Apps Script Web App URL into GOOGLE_APPS_SCRIPT_URL.";
-        return;
-      }
-
-      statusEl.textContent = "Submitting...";
-
-      const fd = new FormData(form);
-      fd.append("page", window.location.href);
-      fd.append("submittedAt", new Date().toISOString());
-
-      try {
-        await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method: "POST",
-          body: fd,
-          mode: "no-cors"
-        });
-
-        statusEl.textContent = "Thank you — submitted successfully.";
-
-        if (typeof gtag === 'function') {
-          gtag('event', 'survey_submit', {
-            event_category: 'engagement',
-            event_label: 'Survey Submitted'
-          });
-        }
-
-        form.reset();
-        setTimeout(() => closeModal(), 900);
-
-      } catch (err) {
-        console.error(err);
-        statusEl.textContent = "Something went wrong. Please try again.";
-      }
-    });
-  </script>
+  <script src="main.js" defer></script>
 </body>
 </html>
