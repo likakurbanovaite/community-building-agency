@@ -249,7 +249,7 @@ a { color: inherit; }
 .bg-soft, .bg-mint { background: transparent; }
 
 /* Sections with a solid white background */
-#about-us, #what-we-do, #why-community, #founder { background: var(--surface); }
+#about-us, #what-we-do, #why-community, #why-us, #founder { background: var(--surface); }
 
 /* decorative blobs — hidden site-wide (single fixed bg handles this), kept only in CTA */
 .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .7; pointer-events: none; z-index: 0; display: none; }
@@ -465,7 +465,14 @@ a { color: inherit; }
 }
 
 /* ---------- Why us ---------- */
-.logos-img { max-width: 780px; width: 100%; height: auto; margin: 0 auto; position: relative; z-index: 1; }
+/* fills the full content column — the logo strip is wide and short, so capping
+   it narrower than the container left it looking undersized */
+.logos-img { max-width: 1080px; width: 100%; height: auto; margin: 0 auto; position: relative; z-index: 1; }
+/* <picture> is inline by default, which would break the img's auto-margin centring */
+.logos-pic { display: block; }
+/* phones get the portrait asset — 7 stacked rows, so it runs taller than the
+   viewport at full container width. Capping the width scales the whole block down. */
+@media (max-width: 640px) { .logos-img { max-width: 240px; } }
 
 /* ---------- Founder ---------- */
 .founder-inner {
