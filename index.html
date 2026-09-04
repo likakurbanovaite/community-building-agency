@@ -200,32 +200,6 @@
       </div>
     </section>
 
-    <!-- VISUAL STRIP -->
-    <section class="visual-strip section" style="padding-bottom:0;">
-      <div class="visual-strip-grid fade-in">
-        <img src="assets/s2.JPG" alt="Community visual 1">
-        <img src="assets/3.png" alt="Community visual 2">
-        <img src="assets/4.JPG" alt="Community visual 3">
-      </div>
-    </section>
-
-    <!-- SERVICES TEASER — full detail lives on services.html -->
-    <section class="section" id="services">
-      <div class="container section-inner fade-in">
-        <div class="section-header center">
-          <p class="eyebrow center">Our Services</p>
-          <h2>Ways to work together.</h2>
-          <p class="lead max-60" style="margin-left:auto;margin-right:auto;">
-            From a single strategy session to a fully implemented community ecosystem —
-            three ways to bring community into your brand.
-          </p>
-        </div>
-        <div style="text-align:center;position:relative;z-index:1;">
-          <a href="services.html" class="btn-primary">View our services</a>
-        </div>
-      </div>
-    </section>
-
     <!-- WHY COMMUNITY -->
     <section class="section bg-soft" id="why-community">
       <div class="blob blob-1"></div>
@@ -252,14 +226,26 @@
       </div>
     </section>
 
+    <!-- VISUAL STRIP -->
+    <section class="visual-strip section" style="padding-bottom:0;">
+      <div class="visual-strip-grid fade-in">
+        <img src="assets/s2.JPG" alt="Community visual 1">
+        <img src="assets/3.png" alt="Community visual 2">
+        <img src="assets/4.JPG" alt="Community visual 3">
+      </div>
+    </section>
+
     <!-- WHY US -->
     <section class="section" id="why-us">
       <div class="container section-inner fade-in">
         <div class="section-header center">
-          <p class="eyebrow center">Why Us</p>
-          <h2>Trusted by the following brands.</h2>
+          <p class="eyebrow center">Trusted By</p>
         </div>
-        <img class="logos-img" src="assets/logos.png" alt="Trusted brands">
+        <picture class="logos-pic">
+          <!-- portrait, stacked version for phones -->
+          <source media="(max-width: 640px)" srcset="assets/logos-upd-mobile.png">
+          <img class="logos-img" src="assets/logos-upd.png" alt="Trusted brands">
+        </picture>
       </div>
     </section>
 
