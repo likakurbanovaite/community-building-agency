@@ -70,6 +70,11 @@ body::before {
   /* rotate: 180deg; adds subtle variation, makes it less "wallpaper-y" */
 }
 
+/* Pages that opt out of the poster and sit on flat white.
+   The .section top border is white, so it also stops showing as a divider. */
+body.page-white { background: var(--bg); }
+body.page-white::before { content: none; }
+
 img { max-width: 100%; display: block; }
 
 .container {
@@ -179,8 +184,9 @@ a { color: inherit; }
   flex-shrink: 0;
 }
 .logo-text {
-  font-family: var(--font-display);
-  font-weight: 560;
+  /* same family as the nav links */
+  font-family: var(--font-body);
+  font-weight: 600;
   /* scales down on narrow screens so the wordmark stays on one line */
   font-size: clamp(.85rem, 4.6vw, 1.4rem);
   /* letter-spacing: 0.04em; */
@@ -219,10 +225,97 @@ a { color: inherit; }
 .nav-toggle.open span:nth-child(2) { transform: translateY(-0px) rotate(-45deg); }
 
 /* ---------- Subpages ---------- */
-/* h1 on a subpage sits between the hero h1 and a section h2 */
-.page-hero { padding-bottom: clamp(2rem, 4vw, 3rem); }
+/* symmetric top/bottom padding from .section, so the space below the button
+   matches the space between the navbar and the eyebrow.
+   .eyebrow is inline-flex site-wide, which puts it on a text line and adds
+   ~10px of half-leading above it — enough to make the top gap visibly bigger
+   than the bottom one. Block-level flex drops the line box; .eyebrow.center
+   already supplies justify-content, so it still centres. */
+.page-hero .eyebrow { display: flex; }
+/* Subpage heroes are content-driven, so the gap above the eyebrow is just the
+   section's top padding and reads the same on every page. (A min-height with
+   centred content used to live here; on the shorter Services hero it created
+   ~170px of extra free space above and below, making that page's spacing look
+   nothing like Join Community's.)
+   When the header is the hero's last element there's nothing below it to
+   separate, so its 3rem margin would otherwise add to the bottom padding. */
+.page-hero .section-header:last-child { margin-bottom: 0; }
+/* likewise the last paragraph inside it, whose 1rem margin would otherwise
+   sit on top of the hero's bottom padding */
+.page-hero .section-header > :last-child { margin-bottom: 0; }
+/* index's .hero carries no top border; subpage heroes use .section, so drop it here.
+   #community-photos sits flush under the hero, so no divider between them either. */
+.page-hero, #community-photos { border-top: 0; }
 .page-hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
 .page-hero .lead { margin-top: 1.2rem; }
+
+/* hidden must win over any display set below */
+[hidden] { display: none !important; }
+
+/* auto-scrolling community photo strip — full-bleed, same 3/4 crops as the
+   visual strip on the main page, but drifting sideways instead of static */
+.marquee {
+  position: relative; z-index: 1;
+  width: 100vw; margin-left: calc(50% - 50vw);
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 70s linear infinite;
+}
+/* the track holds two identical copies, so -50% lands exactly on the seam */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+/* uniform height, width follows each photo's own proportions — nothing is
+   cropped, so wide shots stay wide and portrait shots stay narrow.
+   max-width:none overrides the global img rule, which would otherwise
+   fight the auto width inside a max-content flex track. */
+.marquee-track img {
+  flex: 0 0 auto;
+  height: clamp(240px, 30vw, 400px);
+  width: auto;
+  max-width: none;
+  display: block;
+}
+
+/* confirmation shown in place of the sign-up form */
+.confirmation { text-align: center; }
+/* focused programmatically so screen readers land on it — no visible ring */
+.confirmation:focus:not(:focus-visible) { outline: none; }
+.confirmation h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: .9rem; }
+.confirmation .lead { max-width: 46ch; margin: 0 auto; }
+.confirmation-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 62px; height: 62px; border-radius: 50%;
+  background: var(--grad-sun); color: #fff;
+  font-size: 1.7rem; font-weight: 700;
+  margin-bottom: 1.3rem;
+}
+
+/* Instagram / WhatsApp button pair */
+.social-actions { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: 1.8rem; }
+.btn-icon { width: 18px; height: 18px; flex: 0 0 auto; }
+.section-cta .btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.4); }
+.section-cta .btn-outline:hover { background: #fff; color: var(--ink); border-color: #fff; }
+
+.field-optional { font-weight: 500; color: var(--muted); }
+
+/* the default .section-header caps at 60ch, which left this hero's headline
+   wrapping to six lines inside a 747px column with 167px empty either side.
+   The headline takes the full container; the body copy stays a touch narrower
+   so lines don't get uncomfortably long to read. */
+.page-hero .section-header { max-width: 100%; }
+.page-hero .hero-intro { max-width: 880px; margin-left: auto; margin-right: auto; }
+
+/* multi-paragraph hero copy (Join Community). Paragraphs carry .lead — the same
+   token the services hero uses — so size/colour stay defined in exactly one
+   place. Only spacing is set here. */
+.hero-intro { margin-top: 1.2rem; }
+.hero-intro p { margin-bottom: 1rem; }
+.hero-intro p:last-child { margin-bottom: 0; }
 
 /* standalone form container (Join Community) */
 .panel {
@@ -248,7 +341,8 @@ a { color: inherit; }
 
 .bg-soft, .bg-mint { background: transparent; }
 
-/* Sections with a solid white background */
+/* Sections with a solid white background — the rest let the poster show through,
+   so the page alternates poster / white / poster as you scroll. */
 #about-us, #what-we-do, #why-community, #why-us, #founder { background: var(--surface); }
 
 /* decorative blobs — hidden site-wide (single fixed bg handles this), kept only in CTA */
@@ -547,6 +641,31 @@ fieldset.field { border: 0; padding: 0; }
 .consent { display: flex; gap: .7rem; font-size: .88rem; color: var(--muted); align-items: flex-start; margin-bottom: 1.2rem; }
 .consent input { margin-top: .3rem; }
 .divider { height: 1px; background: var(--line); margin: 1.8rem 0; }
+
+/* community agreement — fixed height with its own scrollbar, so the full text
+   is readable in the form without making the dialog enormous. tabindex=0 in the
+   markup lets keyboard users scroll it. */
+.agreement-box {
+  max-height: 260px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  padding: 1rem 1.15rem;
+  margin: 0 0 1.2rem;
+  font-size: .88rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.agreement-box:focus-visible { outline: none; border-color: var(--coral); box-shadow: 0 0 0 4px rgba(175,208,110,.32); }
+.agreement-box h4 { margin: 0 0 .7rem; font-family: var(--font-body); font-size: .92rem; font-weight: 700; color: var(--ink); }
+.agreement-box h5 { margin: 1.2rem 0 .4rem; font-family: var(--font-body); font-size: .86rem; font-weight: 700; color: var(--ink); }
+.agreement-box ul { margin: 0 0 .7rem; padding-left: 1.1rem; }
+.agreement-box li { margin-bottom: .35rem; }
+.agreement-box p { margin: 0 0 .7rem; }
+.agreement-box > :last-child { margin-bottom: 0; }
+.agreement-box a { color: var(--coral); }
 .form-status { font-size: .92rem; color: var(--coral); margin-top: .9rem; text-align: center; font-weight: 600; }
 
 /* =========================================================
@@ -587,4 +706,10 @@ fieldset.field { border: 0; padding: 0; }
   .visual-strip-grid { grid-template-columns: 1fr; }
   .visual-strip-grid img { aspect-ratio: 4 / 5; }
   .radio-grid { grid-template-columns: 1fr; }
+}
+
+/* respect a reduced-motion preference: stop the drift, allow manual swiping */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .marquee { overflow-x: auto; }
 }
