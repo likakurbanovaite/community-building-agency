@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Join Community | Community Building Agency</title>
-  <meta name="description" content="Join a community of independent designers, boutiques and emerging fashion labels building loyal audiences together." />
+  <title>Join the CBA Community | Community Building Agency</title>
+  <meta name="description" content="Join the CBA community — a space for designers, boutiques, stylists and creatives building fashion brands through people." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Fonts -->
@@ -26,7 +26,7 @@
   </script>
 </head>
 
-<body>
+<body class="page-white">
   <!-- NAVBAR -->
   <header class="site-header">
     <div class="container nav-inner">
@@ -39,7 +39,6 @@
         <a href="index.html">About Us</a>
         <a href="services.html">Services</a>
         <a href="joincommunity.html" aria-current="page">Join Community</a>
-        <a href="#cta" class="nav-cta book-btn">Book Free Session</a>
       </nav>
 
       <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
@@ -49,126 +48,92 @@
   </header>
 
   <main>
-    <!-- PAGE HERO -->
+    <!-- HERO -->
     <section class="section page-hero">
       <div class="container section-inner fade-in">
         <div class="section-header center">
-          <p class="eyebrow center">Join Community</p>
-          <h1>You don't have to build it alone.</h1>
-          <p class="lead max-60" style="margin-left:auto;margin-right:auto;">
-            A space for independent designers, boutiques and emerging labels who are
-            growing their brands through people rather than paid reach.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHAT YOU GET -->
-    <section class="section bg-soft" style="padding-top:0;">
-      <div class="container section-inner fade-in">
-        <div class="two-col">
-          <div>
-            <p class="eyebrow">What's inside</p>
-            <h2>A room full of people <span class="grad-text">solving the same problem.</span></h2>
+          <p class="eyebrow center">About Our Community</p>
+          <h1>
+            CBA is a growing community for people connected to fashion, creativity and business.
+            We are here for the ones who do not want to create and grow alone.
+          </h1>
+          <div class="hero-intro">
             <p class="lead">
-              We're bringing together fashion founders and creative teams who care about
-              loyalty, connection and building something that lasts longer than a campaign.
+              Good ideas need people to make them real. They need conversation, trust,
+              encouragement, shared resources and someone saying &ldquo;I can help with that.&rdquo;
+              We are building a space where people can find collaborators, ask for help,
+              offer support, create opportunities and feel more connected and excited in
+              their creative journeys.
+            </p>
+            <p class="lead">
+              We welcome different backgrounds, cultures, disciplines and perspectives,
+              because meaningful creative work is rarely built from one point of view.
+              This community is for people who care about co-creation, generosity,
+              cultural exchange, social impact and collective growth.
+            </p>
+            <p class="lead">
+              If this feels like the right community for you, hit the button below.
             </p>
           </div>
-          <div>
-            <div class="benefit-list">
-              <div class="benefit"><span class="tick">✓</span> Peer conversations with other fashion founders</div>
-              <div class="benefit"><span class="tick">✓</span> Practical community-building resources and templates</div>
-              <div class="benefit"><span class="tick">✓</span> Invitations to online and in-person gatherings</div>
-              <div class="benefit"><span class="tick">✓</span> Early access to new frameworks as we develop them</div>
-              <div class="benefit"><span class="tick">✓</span> Discounted rates for founding members</div>
-            </div>
-          </div>
+        </div>
+        <div style="text-align:center;position:relative;z-index:1;">
+          <a href="#" class="btn-primary btn-large join-btn">JOIN OUR COMMUNITY</a>
         </div>
       </div>
     </section>
 
-    <!-- SIGN UP -->
-    <section class="section" id="join">
-      <div class="container section-inner fade-in">
-        <div class="section-header center">
-          <p class="eyebrow center">Request an invite</p>
-          <h2>Join the community.</h2>
-          <p class="lead max-60" style="margin-left:auto;margin-right:auto;">
-            The community is forming now. Tell us a little about you and we'll be in touch
-            with an invitation as places open up.
-          </p>
-        </div>
-
-        <div class="panel">
-          <form id="joinForm" class="survey-form" style="margin-top:0;">
-            <input type="hidden" name="formType" value="join-community">
-
-            <label class="field">
-              <span class="field-label">Your name</span>
-              <input type="text" name="name" required placeholder="Jane Doe" />
-            </label>
-
-            <label class="field">
-              <span class="field-label">Email</span>
-              <input type="email" name="email" required placeholder="you@brand.com" />
-            </label>
-
-            <label class="field">
-              <span class="field-label">Brand or business (optional)</span>
-              <input type="text" name="brand" placeholder="Your label, boutique or studio" />
-            </label>
-
-            <fieldset class="field">
-              <legend class="field-label">What best describes you?</legend>
-              <div class="radio-grid">
-                <label><input type="radio" name="role" value="Independent designer" required> Independent designer</label>
-                <label><input type="radio" name="role" value="Boutique owner"> Boutique owner</label>
-                <label><input type="radio" name="role" value="Emerging fashion label"> Emerging fashion label</label>
-                <label><input type="radio" name="role" value="Concept store"> Concept store</label>
-                <label><input type="radio" name="role" value="Sustainable brand"> Sustainable brand</label>
-                <label><input type="radio" name="role" value="Something else"> Something else</label>
-              </div>
-            </fieldset>
-
-            <label class="field">
-              <span class="field-label">What would you most like to get out of the community?</span>
-              <textarea name="hopes" rows="4" placeholder="Type your answer..."></textarea>
-            </label>
-
-            <label class="consent">
-              <input type="checkbox" name="consent" value="yes" required>
-              <span>
-                I consent to being contacted about the community and to my responses being
-                stored securely for this purpose.
-              </span>
-            </label>
-
-            <button class="btn-primary btn-full btn-large" type="submit">Request an invite</button>
-            <p id="joinStatus" class="form-status" aria-live="polite"></p>
-          </form>
+    <!-- COMMUNITY PHOTO STRIP — scrolls continuously -->
+    <section class="section" id="community-photos" style="padding:0;">
+      <div class="marquee" role="img" aria-label="Photographs from CBA community events">
+        <div class="marquee-track">
+          <img src="assets/community/community-01.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-02.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-03.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-04.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-05.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-06.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-07.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-08.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-09.jpeg" alt="" loading="lazy" decoding="async">
+          <!-- second copy makes the loop seamless — the track scrolls exactly -50% -->
+          <img src="assets/community/community-01.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-02.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-03.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-04.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-05.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-06.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-07.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-08.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-09.jpeg" alt="" loading="lazy" decoding="async">
         </div>
       </div>
     </section>
 
-    <!-- CTA BLOCK -->
+    <!-- STAY CONNECTED -->
     <section class="section section-cta" id="cta">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="container section-inner fade-in">
         <div class="cta-layout">
           <div class="cta-box">
-            <p class="eyebrow">Working with us</p>
-            <h2>Looking for hands-on support for your brand?</h2>
+            <p class="eyebrow">Stay connected</p>
+            <h2>Find us elsewhere.</h2>
             <p class="body">
-              The community is free to join. If you'd like dedicated strategy work for your
-              business, book an introductory session and we'll walk you through the options.
+              Already joined, or just want to follow along first? We post events, member work
+              and behind-the-scenes on Instagram, and the day-to-day conversation happens in
+              the WhatsApp chat.
             </p>
-            <div class="cta-actions">
-              <a href="#cta" class="btn-primary btn-large book-btn">Book Free Consultation</a>
-              <p class="cta-note">
-                Prefer to start with questions? Reach out and we'll help you find the right entry point.
-              </p>
+            <div class="social-actions" style="justify-content:flex-start;">
+              <!-- TODO: replace # with the real Instagram profile URL -->
+              <a class="btn-primary" href="#" rel="noopener">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+                Follow us on Instagram
+              </a>
+              <!-- TODO: replace # with the real WhatsApp group invite link -->
+              <a class="btn-outline" href="#" rel="noopener">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3.5 20.5l1.6-4.8A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.8 9.4c.6 2.4 2.4 4.2 4.8 4.8"/></svg>
+                Join the WhatsApp chat
+              </a>
             </div>
           </div>
 
@@ -190,6 +155,235 @@
       <p class="footer-meta">© <span id="year"></span> Community Building Agency. All rights reserved.</p>
     </div>
   </footer>
+
+
+  <!-- JOIN COMMUNITY MODAL -->
+  <div id="joinModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="joinTitle">
+      <button class="modal-close" type="button" aria-label="Close sign-up form" data-close="true">&times;</button>
+
+      <div class="modal-content">
+        <div id="joinIntro">
+          <p class="modal-eyebrow">Sign up</p>
+          <h2 id="joinTitle">Join the CBA community.</h2>
+          <p class="modal-body">
+            A few short questions so we know who you are and what you're hoping to get out of it.
+          </p>
+        </div>
+
+        <form id="joinForm" class="survey-form">
+          <input type="hidden" name="formType" value="join-community">
+
+          <label class="field">
+            <span class="field-label">Name</span>
+            <input type="text" name="name" required placeholder="Your name" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Email address</span>
+            <input type="email" name="email" required placeholder="you@brand.com" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Instagram handle <span class="field-optional">(optional)</span></span>
+            <input type="text" name="instagram" placeholder="@yourhandle" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">City / country</span>
+            <input type="text" name="location" required placeholder="London, UK" />
+          </label>
+
+          <fieldset class="field">
+            <legend class="field-label">Age range</legend>
+            <div class="radio-grid">
+              <label><input type="radio" name="ageRange" value="Under 18" required> Under 18</label>
+              <label><input type="radio" name="ageRange" value="18–24"> 18–24</label>
+              <label><input type="radio" name="ageRange" value="25–34"> 25–34</label>
+              <label><input type="radio" name="ageRange" value="35–44"> 35–44</label>
+              <label><input type="radio" name="ageRange" value="45+"> 45+</label>
+              <label><input type="radio" name="ageRange" value="Prefer not to say"> Prefer not to say</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend class="field-label">What best describes you?</legend>
+            <div class="radio-grid">
+              <label><input type="radio" name="role" value="Designer or brand founder" required> Designer or brand founder</label>
+              <label><input type="radio" name="role" value="Boutique or store owner"> Boutique or store owner</label>
+              <label><input type="radio" name="role" value="Stylist or creative"> Stylist or creative</label>
+              <label><input type="radio" name="role" value="Student"> Student</label>
+              <label><input type="radio" name="role" value="Industry professional"> Industry professional</label>
+              <label><input type="radio" name="role" value="Something else"> Something else</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend class="field-label">What are you most interested in? <span class="field-optional">(choose any)</span></legend>
+            <div class="radio-grid">
+              <label><input type="checkbox" name="interests" value="Events and meetups"> Events and meetups</label>
+              <label><input type="checkbox" name="interests" value="Collaborations"> Collaborations</label>
+              <label><input type="checkbox" name="interests" value="Learning and resources"> Learning and resources</label>
+              <label><input type="checkbox" name="interests" value="Networking"> Networking</label>
+              <label><input type="checkbox" name="interests" value="Behind-the-scenes"> Behind-the-scenes</label>
+              <label><input type="checkbox" name="interests" value="Opportunities"> Opportunities</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend class="field-label">Would you like to join the WhatsApp community chat?</legend>
+            <div class="radio-grid">
+              <label><input type="radio" name="whatsapp" value="Yes please" required> Yes please</label>
+              <label><input type="radio" name="whatsapp" value="Not right now"> Not right now</label>
+            </div>
+          </fieldset>
+
+          <div class="divider"></div>
+
+          <!-- scrollable so the full agreement is readable without stretching the form -->
+          <div class="agreement-box" tabindex="0" role="region" aria-label="CBA community guidelines and terms of participation">
+            <h4>CBA Community Guidelines &amp; Terms of Participation</h4>
+            <p>By joining the CBA Community, you agree to the following.</p>
+
+            <h5>1. Who this is for</h5>
+            <p>
+              The CBA Community is open to people connected to fashion, creativity and business
+              who want to contribute to a space built on collaboration, not just self-promotion.
+              Membership is at CBA's discretion, and we may decline or remove access for anyone
+              who does not align with the community's values.
+            </p>
+
+            <h5>2. How we use your information</h5>
+            <p>
+              When you join, we collect the details you share in the sign-up form (name, email,
+              Instagram handle, location, age range, and your interests). We use this information to:
+            </p>
+            <ul>
+              <li>Give you access to the community and its channels (email, WhatsApp)</li>
+              <li>Contact you about updates, events and opportunities</li>
+              <li>Understand who is in the community so we can make better introductions and plan better events</li>
+            </ul>
+            <p>
+              We do not sell your information to third parties. You can ask to see what we hold
+              about you, correct it, or have it removed at any time by contacting us.
+            </p>
+            <p>
+              By submitting the form, you agree to CBA storing your responses and contacting you
+              by email or WhatsApp about community updates, events and opportunities. You can
+              unsubscribe or leave the community at any time.
+            </p>
+
+            <h5>3. WhatsApp and other community channels</h5>
+            <p>
+              Some community activity happens on WhatsApp or other third-party platforms. These
+              platforms have their own terms and privacy policies, which are outside CBA's control.
+              Please be mindful of what you share there, as messages may be visible to other
+              members and are not moderated in real time.
+            </p>
+
+            <h5>4. How we expect members to behave</h5>
+            <p>
+              This community works because people treat it with care. By joining, you agree to:
+            </p>
+            <ul>
+              <li>Respect other members, their work, time and boundaries</li>
+              <li>Share in a way that adds value to the community</li>
+              <li>Be open to connection, collaboration and mutual support</li>
+              <li>Offer help, advice, introductions or feedback when you genuinely can</li>
+              <li>Credit other people's ideas, work and contributions properly</li>
+            </ul>
+            <p>And to avoid:</p>
+            <ul>
+              <li>Spam, repeated self-promotion, or posting only to sell services</li>
+              <li>Harmful, discriminatory, offensive or exploitative content</li>
+              <li>Contacting members privately for sales, promotion or requests without context and respect</li>
+              <li>Sharing another member's personal information, contact details or work without permission</li>
+            </ul>
+            <p>
+              CBA may remove content or members that go against these guidelines, without notice,
+              if we believe it's needed to protect the space.
+            </p>
+
+            <h5>5. Events and in-person activity</h5>
+            <p>
+              If you attend CBA events, pop-ups or activities, you do so at your own risk. CBA is
+              not responsible for loss, damage or injury arising from your attendance, except where
+              this is caused by our negligence.
+            </p>
+
+            <h5>6. No guarantee of outcomes</h5>
+            <p>
+              CBA provides a space for connection, collaboration and opportunity, but we don't
+              guarantee any specific business outcome, collaboration, or result from your
+              participation. Any agreements, projects or working relationships you form with other
+              members are between you and them, and CBA is not a party to them and holds no
+              responsibility for their outcome.
+            </p>
+
+            <h5>7. Changes to these terms</h5>
+            <p>
+              We may update these guidelines from time to time as the community grows. If we make
+              significant changes, we'll let members know through the community's usual channels.
+            </p>
+
+            <h5>8. Leaving the community</h5>
+            <p>
+              You can leave at any time by unsubscribing, leaving the WhatsApp group, or contacting
+              us directly to have your information removed.
+            </p>
+
+            <h5>9. Contact</h5>
+            <p>
+              If you have questions about these terms or how your information is used, contact us at
+              <a href="mailto:communitybuildingagency@gmail.com">communitybuildingagency@gmail.com</a>.
+            </p>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="agreementConsent" value="yes" required>
+            <span>
+              I agree to the CBA Community Guidelines & Terms of Participation.
+            </span>
+          </label>
+
+          <label class="consent">
+            <input type="checkbox" name="contactConsent" value="yes" required>
+            <span>
+              I agree for CBA to store my responses and contact me by email about community
+              updates, events and opportunities.
+            </span>
+          </label>
+
+          <button class="btn-primary btn-full btn-large" type="submit">Join the community</button>
+          <p id="joinStatus" class="form-status" aria-live="polite"></p>
+        </form>
+
+        <!-- Shown in place of the form after a successful submit -->
+        <div id="joinConfirmation" class="confirmation" tabindex="-1" hidden>
+          <span class="confirmation-icon" aria-hidden="true">✓</span>
+          <h2>Welcome to the CBA community.</h2>
+          <p class="lead">
+            Thank you for joining. Please follow us on Instagram and join the WhatsApp chat to
+            stay updated on events, conversations, collaborations and community opportunities.
+          </p>
+          <div class="social-actions">
+            <!-- TODO: replace # with the real Instagram profile URL -->
+            <a class="btn-primary" href="#" rel="noopener">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+              Follow us on Instagram
+            </a>
+            <!-- TODO: replace # with the real WhatsApp group invite link -->
+            <a class="btn-outline" href="#" rel="noopener">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3.5 20.5l1.6-4.8A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.8 9.4c.6 2.4 2.4 4.2 4.8 4.8"/></svg>
+              Join the WhatsApp chat
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="main.js" defer></script>
 </body>
