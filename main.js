@@ -148,6 +148,47 @@ function closeModal() {
   statusEl.textContent = "";
 }
 
+/* Wires a dialog to the buttons that open it: click a trigger to open, click the
+   backdrop or the × to close, Escape closes whichever dialog is currently open. */
+function setupModal(modalEl, triggerSelector, eventLabel) {
+  function open() {
+    modalEl.classList.add('is-open');
+    modalEl.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setNav(false);
+    modalEl.querySelector('.modal-dialog').scrollTop = 0;
+    const firstField = modalEl.querySelector('textarea, input:not([type="hidden"])');
+    if (firstField) firstField.focus();
+  }
+
+  function close() {
+    modalEl.classList.remove('is-open');
+    modalEl.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll(triggerSelector).forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      open();
+      if (typeof gtag === 'function') {
+        gtag('event', 'modal_open', { event_category: 'engagement', event_label: eventLabel });
+      }
+    });
+  });
+
+  modalEl.addEventListener('click', (e) => {
+    if (e.target && e.target.dataset && e.target.dataset.close === 'true') close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalEl.classList.contains('is-open')) close();
+  });
+
+  return { open, close };
+}
+
+// Survey modal keeps its own close(), which also clears the status line
 document.querySelectorAll('.book-btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -175,7 +216,7 @@ document.addEventListener('keydown', (e) => {
    Shared by the survey modal and the Join Community form. Both post to the same
    Apps Script endpoint and carry a `formType` field so the two can be told apart
    in the sheet. */
-function wireForm(formEl, statusNode, successMsg, onSuccess) {
+function wireForm(formEl, statusNode, successMsg, onSuccess, delay = 900) {
   formEl.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -209,7 +250,7 @@ function wireForm(formEl, statusNode, successMsg, onSuccess) {
       }
 
       formEl.reset();
-      if (onSuccess) setTimeout(onSuccess, 900);
+      if (onSuccess) setTimeout(onSuccess, delay);
 
     } catch (err) {
       console.error(err);
@@ -222,12 +263,21 @@ function wireForm(formEl, statusNode, successMsg, onSuccess) {
 
 wireForm(form, statusEl, "Thank you — submitted successfully.", closeModal);
 
-// Join Community page form, when present
-const joinForm = document.getElementById('joinForm');
-if (joinForm) {
-  wireForm(
-    joinForm,
-    document.getElementById('joinStatus'),
-    "Thank you — you're on the list. We'll be in touch soon."
-  );
+// Join Community page: the sign-up form lives in its own modal, opened by the
+// "Join the community" buttons. On success the intro + form are replaced inside
+// the dialog by the confirmation message.
+const joinModal = document.getElementById('joinModal');
+if (joinModal) {
+  setupModal(joinModal, '.join-btn', 'Join Button -> Sign-up Open');
+
+  const joinForm = document.getElementById('joinForm');
+  wireForm(joinForm, document.getElementById('joinStatus'), "", () => {
+    document.getElementById('joinIntro').hidden = true;
+    joinForm.hidden = true;
+
+    const confirmation = document.getElementById('joinConfirmation');
+    confirmation.hidden = false;
+    joinModal.querySelector('.modal-dialog').scrollTop = 0;
+    confirmation.focus();
+  }, 0);
 }
