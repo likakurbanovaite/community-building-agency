@@ -21,7 +21,7 @@ navToggle.addEventListener('click', () => {
 });
 
 // Tapping a section link should close the menu it was opened from.
-// .book-btn links are skipped — they open the survey modal, which closes the nav itself.
+// .book-btn links are skipped — they open the consultation modal, which closes the nav itself.
 navLinks.querySelectorAll('a:not(.book-btn)').forEach(link => {
   link.addEventListener('click', () => setNav(false));
 });
@@ -42,95 +42,102 @@ faders.forEach(el => observer.observe(el));
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-/* ---------- Survey modal ----------
+/* ---------- Consultation modal ----------
    Injected from here so the markup lives in one place rather than being
    duplicated across every page that has a "Book" button. */
 document.body.insertAdjacentHTML('beforeend', `
-  <div id="surveyModal" class="modal" aria-hidden="true">
+  <div id="consultModal" class="modal" aria-hidden="true">
     <div class="modal-backdrop" data-close="true"></div>
 
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="surveyTitle">
-      <button class="modal-close" type="button" aria-label="Close survey" data-close="true">&times;</button>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="consultTitle">
+      <button class="modal-close" type="button" aria-label="Close" data-close="true">&times;</button>
 
       <div class="modal-content">
-        <p class="modal-eyebrow">Quick survey</p>
-        <h2 id="surveyTitle">You're early — and that's a good thing.</h2>
+        <p class="modal-eyebrow">Get started</p>
+        <h2 id="consultTitle">You're one step away.</h2>
 
         <p class="modal-body">
-          Community Building Agency is currently exploring a new way of supporting fashion businesses.
-          The service is still taking shape. This page is an early prototype designed to understand what fashion brands actually need and whether this kind of support would be valuable.
+          Leave your details below and we'll get in touch within a week to schedule
+          your free consultation.
         </p>
 
-        <h3 class="modal-subtitle">What's Next?</h3>
-        <p class="modal-body">
-          By answering a few short questions, you'll help shape a service built around real challenges fashion businesses face.
-          Early contributors will receive up to 50% discount as first clients when the business launches.
-        </p>
-
-        <form id="surveyForm" class="survey-form">
-          <input type="hidden" name="formType" value="survey">
+        <form id="consultForm" class="survey-form">
+          <input type="hidden" name="formType" value="consultation">
 
           <label class="field">
-            <span class="field-label">1. What kind of fashion business do you run, and what is your role? How do you see the future of it?</span>
-            <textarea name="q1" required rows="4" placeholder="Type your answer..."></textarea>
+            <span class="field-label">Name</span>
+            <input type="text" name="name" required placeholder="Your name" />
           </label>
 
           <label class="field">
-            <span class="field-label">2. What are the biggest challenges your brand is facing at the moment? And what kind of support would be most helpful for your business at this stage?</span>
-            <textarea name="q2" required rows="4" placeholder="Type your answer..."></textarea>
+            <span class="field-label">Email</span>
+            <input type="email" name="email" required placeholder="you@brand.com" />
           </label>
 
           <label class="field">
-            <span class="field-label">3. What would make you confident trying a new way to attract, retain and connect with customers? What might stop you?</span>
-            <textarea name="q3" required rows="4" placeholder="Type your answer..."></textarea>
+            <span class="field-label">Brand / business name</span>
+            <input type="text" name="brand" required placeholder="Your brand" />
           </label>
 
           <fieldset class="field">
-            <legend class="field-label">4. If a service helped you build a strong community, what monthly budget would feel realistic for you?</legend>
+            <legend class="field-label">What best describes your role?</legend>
             <div class="radio-grid">
-              <label><input type="radio" name="budget" value="£0–£200" required> £0–£200</label>
-              <label><input type="radio" name="budget" value="£200–£500"> £200–£500</label>
-              <label><input type="radio" name="budget" value="£500–£1,000"> £500–£1,000</label>
-              <label><input type="radio" name="budget" value="£1,000–£2,000"> £1,000–£2,000</label>
-              <label><input type="radio" name="budget" value="£2,000–£5,000"> £2,000–£5,000</label>
-              <label><input type="radio" name="budget" value="£5,000–£10,000"> £5,000–£10,000</label>
-              <label><input type="radio" name="budget" value="£10,000+"> £10,000+</label>
-              <label><input type="radio" name="budget" value="Not sure yet"> Not sure yet</label>
+              <label><input type="radio" name="role" value="Founder" required> Founder</label>
+              <label><input type="radio" name="role" value="Marketing / Community lead"> Marketing / Community lead</label>
+              <label><input type="radio" name="role" value="Other"> Other</label>
             </div>
           </fieldset>
+
+          <!-- revealed only when "Other" is picked; see syncRoleOther() below -->
+          <label class="field" id="roleOtherField" hidden>
+            <span class="field-label">Tell us your role</span>
+            <input type="text" name="roleOther" placeholder="Your role" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Website or Instagram <span class="field-optional">(optional)</span></span>
+            <input type="text" name="website" placeholder="Optional" />
+          </label>
 
           <label class="consent">
             <input type="checkbox" name="consent" value="yes" required>
             <span>
-              I confirm that I consent to my responses being used for research purposes only.
-              All data will be stored securely and anonymised.
+              I consent to my data being stored securely and used for communication purposes.
             </span>
           </label>
 
-          <div class="divider"></div>
-
-          <h3 class="modal-subtitle">Stay in the loop</h3>
-          <p class="modal-body">
-            If you'd like to be the first to hear when the business launches, please leave your email below.
-            Early contributors will receive up to 50% discount as first clients when the business launches.
-          </p>
-
-          <label class="field">
-            <span class="field-label">Email (optional)</span>
-            <input type="email" name="email" placeholder="you@brand.com" />
-          </label>
-
           <button class="btn-primary btn-full btn-large" type="submit">Submit</button>
-          <p id="surveyStatus" class="form-status" aria-live="polite"></p>
+          <p id="consultStatus" class="form-status" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </div>
 `);
 
-const modal = document.getElementById('surveyModal');
-const form = document.getElementById('surveyForm');
-const statusEl = document.getElementById('surveyStatus');
+const modal = document.getElementById('consultModal');
+const form = document.getElementById('consultForm');
+const statusEl = document.getElementById('consultStatus');
+
+/* Picking "Other" for the role reveals a free-text field. `required` is toggled
+   with it — a required field that is hidden makes the form unsubmittable, since
+   the browser cannot focus it to show the validation message. */
+const roleOtherField = document.getElementById('roleOtherField');
+const roleOtherInput = roleOtherField.querySelector('input');
+
+function syncRoleOther() {
+  const picked = form.querySelector('[name="role"]:checked');
+  const isOther = !!picked && picked.value === 'Other';
+  roleOtherField.hidden = !isOther;
+  roleOtherInput.required = isOther;
+  if (!isOther) roleOtherInput.value = '';
+}
+
+form.querySelectorAll('[name="role"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    syncRoleOther();
+    if (!roleOtherField.hidden) roleOtherInput.focus();
+  });
+});
 
 function openModal() {
   modal.classList.add('is-open');
@@ -146,6 +153,8 @@ function closeModal() {
   modal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
   statusEl.textContent = "";
+  // form.reset() fires no change event, so re-hide the conditional field here
+  syncRoleOther();
 }
 
 /* Wires a dialog to the buttons that open it: click a trigger to open, click the
@@ -188,7 +197,7 @@ function setupModal(modalEl, triggerSelector, eventLabel) {
   return { open, close };
 }
 
-// Survey modal keeps its own close(), which also clears the status line
+// Consultation modal keeps its own close(), which also clears the status line
 document.querySelectorAll('.book-btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -196,7 +205,7 @@ document.querySelectorAll('.book-btn').forEach(btn => {
     if (typeof gtag === 'function') {
       gtag('event', 'book_now_click', {
         event_category: 'engagement',
-        event_label: 'Book Button -> Survey Open'
+        event_label: 'Book Button -> Consultation Open'
       });
     }
   });
@@ -213,7 +222,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 /* ---------- Form submission ----------
-   Shared by the survey modal and the Join Community form. Both post to the same
+   Shared by the consultation modal and the Join Community form. Both post to the same
    Apps Script endpoint and carry a `formType` field so the two can be told apart
    in the sheet. */
 function wireForm(formEl, statusNode, successMsg, onSuccess, delay = 900) {
@@ -243,9 +252,9 @@ function wireForm(formEl, statusNode, successMsg, onSuccess, delay = 900) {
       statusNode.textContent = successMsg;
 
       if (typeof gtag === 'function') {
-        gtag('event', 'survey_submit', {
+        gtag('event', 'form_submit', {
           event_category: 'engagement',
-          event_label: fd.get('formType') || 'Survey Submitted'
+          event_label: fd.get('formType') || 'form'
         });
       }
 
