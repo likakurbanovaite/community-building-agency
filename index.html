@@ -5,6 +5,10 @@
   <title>Community Building Agency | Fashion Community Strategy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +41,7 @@
       <nav class="nav-links" id="primary-nav">
         <a href="index.html" aria-current="page">About Us</a>
         <a href="services.html">Services</a>
-        <a href="joincommunity.html">Join Community</a>
+        <a href="joincommunity.html">About Our Community</a>
       </nav>
 
       <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
@@ -57,7 +61,7 @@
             leading to stable revenue, sustainable growth, and stronger social impact.
           </p>
           <div class="hero-actions">
-            <a href="#cta" class="btn-primary book-btn">Book Introductory Session</a>
+            <a href="#cta" class="btn-primary book-btn">Book Free Consultation</a>
           </div>
         </div>
 
@@ -234,20 +238,6 @@
       </div>
     </section>
 
-    <!-- WHY US -->
-    <section class="section" id="why-us">
-      <div class="container section-inner fade-in">
-        <div class="section-header center">
-          <p class="eyebrow center">Trusted By</p>
-        </div>
-        <picture class="logos-pic">
-          <!-- portrait, stacked version for phones -->
-          <source media="(max-width: 640px)" srcset="assets/logos-upd-mobile.png">
-          <img class="logos-img" src="assets/logos-upd.png" alt="Trusted brands">
-        </picture>
-      </div>
-    </section>
-
     <!-- FOUNDER -->
     <section class="section" id="founder">
       <div class="blob blob-2"></div>
@@ -278,31 +268,37 @@
       </div>
     </section>
 
+    <!-- WHY US -->
+    <section class="section" id="why-us">
+      <div class="container section-inner fade-in">
+        <div class="section-header center">
+          <p class="eyebrow center">Trusted By</p>
+        </div>
+        <!-- full-bleed logo strip, scrolls continuously -->
+        <div class="marquee marquee-logos" role="img" aria-label="Brands we have worked with">
+          <div class="marquee-track">
+            <img src="assets/logos-line.png" alt="" decoding="async">
+            <!-- second copy makes the loop seamless — the track scrolls exactly -50% -->
+            <img src="assets/logos-line.png" alt="" decoding="async">
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CTA BLOCK -->
     <section class="section section-cta" id="cta">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="container section-inner fade-in">
-        <div class="cta-layout">
+        <div class="cta-layout cta-layout-center">
           <div class="cta-box">
-            <p class="eyebrow">Next Step</p>
+            <p class="eyebrow center">Next Step</p>
             <h2>Ready to grow a loyal, connected community around your brand?</h2>
             <p class="body">
               Book your strategy session to explore what community could look like for your fashion business.
             </p>
             <div class="cta-actions">
               <a href="#cta" class="btn-primary btn-large book-btn">Book Free Consultation</a>
-              <p class="cta-note">
-                Prefer to start with questions? Reach out and we'll help you find the right entry point.
-              </p>
-            </div>
-          </div>
-
-          <div class="contact-card">
-            <h3>Contact Information</h3>
-            <div>
-              <p class="contact-label">Email</p>
-              <p style="margin:0;"><a href="mailto:communitybuildingagency@gmail.com">communitybuildingagency@gmail.com</a></p>
             </div>
           </div>
         </div>
