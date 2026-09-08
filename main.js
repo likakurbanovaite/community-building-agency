@@ -1,169 +1,292 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Services | Community Building Agency</title>
-  <meta name="description" content="Ways to work together — introductory session, strategic community report, and full implementation management for fashion brands." />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+/* =========================================================
+   Community Building Agency — shared behaviour
+   Loaded by index.html, services.html, joincommunity.html
+   ========================================================= */
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="apple-touch-icon" href="assets/favicon.png">
+// ======= SETTINGS (Google Apps Script Web App URL) =======
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvO0OuGNYXB66K-bJdz1ZqUuZ_vxhk0VYnO1VVUV4gQYnGSNj15FxEjTXsoJ4cccXMEw/exec";
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,560;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+/* ---------- Mobile nav ---------- */
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
 
-  <link rel="stylesheet" href="style2.css" />
+function setNav(open) {
+  navToggle.classList.toggle('open', open);
+  navLinks.classList.toggle('open', open);
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
 
-  <!-- UMAMI.IS tracking -->
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="b16bccfe-6395-4036-8e7f-8465aa63abf2"></script>
+navToggle.addEventListener('click', () => {
+  setNav(!navLinks.classList.contains('open'));
+});
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X173NLXJ33"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-X173NLXJ33');
-  </script>
-</head>
+// Tapping a section link should close the menu it was opened from.
+// .book-btn links are skipped — they open the consultation modal, which closes the nav itself.
+navLinks.querySelectorAll('a:not(.book-btn)').forEach(link => {
+  link.addEventListener('click', () => setNav(false));
+});
 
-<body class="page-white">
-  <!-- NAVBAR -->
-  <header class="site-header">
-    <div class="container nav-inner">
-      <a class="logo" href="index.html">
-        <img class="logo-mark" src="assets/CBA_sphere.png" alt="Community Building Agency">
-        <span class="logo-text">Community Building Agency</span>
-      </a>
+/* ---------- Fade-in on scroll ---------- */
+const faders = document.querySelectorAll('.fade-in, .fade-in-delayed');
+const observer = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  },
+  { threshold: 0.15 }
+);
+faders.forEach(el => observer.observe(el));
 
-      <nav class="nav-links" id="primary-nav">
-        <a href="index.html">About Us</a>
-        <a href="services.html" aria-current="page">Services</a>
-        <a href="joincommunity.html">About Our Community</a>
-      </nav>
+/* ---------- Year in footer ---------- */
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
-        <span></span><span></span>
-      </button>
+/* ---------- Consultation modal ----------
+   Injected from here so the markup lives in one place rather than being
+   duplicated across every page that has a "Book" button. */
+document.body.insertAdjacentHTML('beforeend', `
+  <div id="consultModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="consultTitle">
+      <button class="modal-close" type="button" aria-label="Close" data-close="true">&times;</button>
+
+      <div class="modal-content">
+        <p class="modal-eyebrow">Get started</p>
+        <h2 id="consultTitle">You're one step away.</h2>
+
+        <p class="modal-body">
+          Leave your details below and we'll get in touch within a week to schedule
+          your free consultation.
+        </p>
+
+        <form id="consultForm" class="survey-form">
+          <input type="hidden" name="formType" value="consultation">
+
+          <label class="field">
+            <span class="field-label">Name</span>
+            <input type="text" name="name" required placeholder="Your name" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Email</span>
+            <input type="email" name="email" required placeholder="you@brand.com" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Brand / business name</span>
+            <input type="text" name="brand" required placeholder="Your brand" />
+          </label>
+
+          <fieldset class="field">
+            <legend class="field-label">What best describes your role?</legend>
+            <div class="radio-grid">
+              <label><input type="radio" name="role" value="Founder" required> Founder</label>
+              <label><input type="radio" name="role" value="Marketing / Community lead"> Marketing / Community lead</label>
+              <label><input type="radio" name="role" value="Other"> Other</label>
+            </div>
+          </fieldset>
+
+          <!-- revealed only when "Other" is picked; see syncRoleOther() below -->
+          <label class="field" id="roleOtherField" hidden>
+            <span class="field-label">Tell us your role</span>
+            <input type="text" name="roleOther" placeholder="Your role" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Website or Instagram <span class="field-optional">(optional)</span></span>
+            <input type="text" name="website" placeholder="Optional" />
+          </label>
+
+          <label class="consent">
+            <input type="checkbox" name="consent" value="yes" required>
+            <span>
+              I consent to my data being stored securely and used for communication purposes.
+            </span>
+          </label>
+
+          <button class="btn-primary btn-full btn-large" type="submit">Submit</button>
+          <p id="consultStatus" class="form-status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
-  </header>
+  </div>
+`);
 
-  <main>
-    <!-- PAGE HERO -->
-    <section class="section page-hero">
-      <div class="container section-inner fade-in">
-        <div class="section-header center">
-          <p class="eyebrow center">Our Services</p>
-          <h1>Ways to work together.</h1>
-          <p class="lead max-60" style="margin-left:auto;margin-right:auto;">
-            From a single strategy session to a fully implemented community ecosystem -
-            three ways to bring community into your brand.
-          </p>
-        </div>
-      </div>
-    </section>
+const modal = document.getElementById('consultModal');
+const form = document.getElementById('consultForm');
+const statusEl = document.getElementById('consultStatus');
 
-    <!-- SERVICES -->
-    <section class="section" id="services" style="padding-top:0;">
-      <div class="container section-inner fade-in">
-        <div class="service-grid">
-          <article class="service-card">
-            <h3>Introductory Session</h3>
-            <p class="body">A short session to understand our framework and your options.</p>
-            <ul class="service-list">
-              <li>Walk you through the methodology we use</li>
-              <li>Explore your brand's current situation</li>
-              <li>Outline whether a service is the right fit, and if so, which one</li>
-            </ul>
-            <p class="service-outcome">
-              <strong>Outcome:</strong> A clear understanding of how community strategy works, where your
-              brand currently stands, and what support would be most effective for you.
-            </p>
-            <a href="#cta" class="btn-primary book-btn">Book Free Consultation</a>
-          </article>
+/* Picking "Other" for the role reveals a free-text field. `required` is toggled
+   with it — a required field that is hidden makes the form unsubmittable, since
+   the browser cannot focus it to show the validation message. */
+const roleOtherField = document.getElementById('roleOtherField');
+const roleOtherInput = roleOtherField.querySelector('input');
 
-          <article class="service-card">
-            <h3>Strategic Community Report</h3>
-            <p class="body">For brands who are curious about community but unsure where to start.</p>
-            <ul class="service-list">
-              <li>Analyse your current brand situation</li>
-              <li>Identify gaps</li>
-              <li>Outline a personalised next-step strategy</li>
-            </ul>
-            <p class="service-outcome">
-              <strong>Outcome:</strong> Clear direction and a personalised strategy you can immediately put into action.
-            </p>
-            <div class="service-price">
-              <span class="price">£2,000</span>
-              <span class="price-note">Optional payment plan</span>
-            </div>
-          </article>
+function syncRoleOther() {
+  const picked = form.querySelector('[name="role"]:checked');
+  const isOther = !!picked && picked.value === 'Other';
+  roleOtherField.hidden = !isOther;
+  roleOtherInput.required = isOther;
+  if (!isOther) roleOtherInput.value = '';
+}
 
-          <article class="service-card featured">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">
-              <h3 style="margin:0;">Implementation Management</h3>
-              <span class="service-tag">Core</span>
-            </div>
-            <p class="body">
-              Your full strategy - built and implemented for you. An ongoing partnership where we
-              design your complete community ecosystem and actively implement every part of it with you.
-            </p>
-            <p class="service-outcome">
-              <strong>Outcome:</strong> A functioning community model running inside your brand - built,
-              activated, and supported by us on a continuous contract.
-            </p>
-            <div class="service-price">
-              <span class="price">From £1,200/month</span>
-              <span class="price-note">Minimum 3-month project</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+form.querySelectorAll('[name="role"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    syncRoleOther();
+    if (!roleOtherField.hidden) roleOtherInput.focus();
+  });
+});
 
-    <!-- STAY CONNECTED -->
-    <section class="section section-cta" id="cta">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="container section-inner fade-in">
-        <div class="cta-layout">
-          <div class="cta-box">
-            <p class="eyebrow">Stay connected</p>
-            <h2>Find us elsewhere.</h2>
-            <p class="body">
-              We post events, member work and behind-the-scenes on Instagram, and the
-              day-to-day conversation happens in the WhatsApp chat.
-            </p>
-            <div class="social-actions" style="justify-content:flex-start;">
-              <a class="btn-primary" href="https://www.instagram.com/communitybuildingagency/" target="_blank" rel="noopener noreferrer">
-                <img class="btn-icon" src="assets/instagram_icon.png" alt="" aria-hidden="true">
-                Follow us on Instagram
-              </a>
-            </div>
-          </div>
+function openModal() {
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  setNav(false);
+  const firstField = form.querySelector('textarea, input:not([type="hidden"])');
+  if (firstField) firstField.focus();
+}
 
-          <div class="contact-card">
-            <h3>Contact Information</h3>
-            <div>
-              <p class="contact-label">Email</p>
-              <p style="margin:0;"><a href="mailto:communitybuildingagency@gmail.com">communitybuildingagency@gmail.com</a></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+function closeModal() {
+  modal.classList.remove('is-open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  statusEl.textContent = "";
+  // form.reset() fires no change event, so re-hide the conditional field here
+  syncRoleOther();
+}
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <p class="footer-meta">© <span id="year"></span> Community Building Agency. All rights reserved.</p>
-    </div>
-  </footer>
+/* Wires a dialog to the buttons that open it: click a trigger to open, click the
+   backdrop or the × to close, Escape closes whichever dialog is currently open. */
+function setupModal(modalEl, triggerSelector, eventLabel) {
+  function open() {
+    modalEl.classList.add('is-open');
+    modalEl.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setNav(false);
+    modalEl.querySelector('.modal-dialog').scrollTop = 0;
+    const firstField = modalEl.querySelector('textarea, input:not([type="hidden"])');
+    if (firstField) firstField.focus();
+  }
 
-  <script src="main.js" defer></script>
-</body>
-</html>
+  function close() {
+    modalEl.classList.remove('is-open');
+    modalEl.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll(triggerSelector).forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      open();
+      if (typeof gtag === 'function') {
+        gtag('event', 'modal_open', { event_category: 'engagement', event_label: eventLabel });
+      }
+    });
+  });
+
+  modalEl.addEventListener('click', (e) => {
+    if (e.target && e.target.dataset && e.target.dataset.close === 'true') close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalEl.classList.contains('is-open')) close();
+  });
+
+  return { open, close };
+}
+
+// Consultation modal keeps its own close(), which also clears the status line
+document.querySelectorAll('.book-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal();
+    if (typeof gtag === 'function') {
+      gtag('event', 'book_now_click', {
+        event_category: 'engagement',
+        event_label: 'Book Button -> Consultation Open'
+      });
+    }
+  });
+});
+
+modal.addEventListener('click', (e) => {
+  if (e.target && e.target.dataset && e.target.dataset.close === 'true') {
+    closeModal();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+});
+
+/* ---------- Form submission ----------
+   Shared by the consultation modal and the Join Community form. Both post to the same
+   Apps Script endpoint and carry a `formType` field so the two can be told apart
+   in the sheet. */
+function wireForm(formEl, statusNode, successMsg, onSuccess, delay = 900) {
+  formEl.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!GOOGLE_APPS_SCRIPT_URL || GOOGLE_APPS_SCRIPT_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
+      statusNode.textContent = "Please paste your Google Apps Script Web App URL into GOOGLE_APPS_SCRIPT_URL.";
+      return;
+    }
+
+    const submitBtn = formEl.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+    statusNode.textContent = "Submitting...";
+
+    const fd = new FormData(formEl);
+    fd.append("page", window.location.href);
+    fd.append("submittedAt", new Date().toISOString());
+
+    try {
+      await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        method: "POST",
+        body: fd,
+        mode: "no-cors"
+      });
+
+      statusNode.textContent = successMsg;
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'form_submit', {
+          event_category: 'engagement',
+          event_label: fd.get('formType') || 'form'
+        });
+      }
+
+      formEl.reset();
+      if (onSuccess) setTimeout(onSuccess, delay);
+
+    } catch (err) {
+      console.error(err);
+      statusNode.textContent = "Something went wrong. Please try again.";
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+}
+
+wireForm(form, statusEl, "Thank you — submitted successfully.", closeModal);
+
+// Join Community page: the sign-up form lives in its own modal, opened by the
+// "Join the community" buttons. On success the intro + form are replaced inside
+// the dialog by the confirmation message.
+const joinModal = document.getElementById('joinModal');
+if (joinModal) {
+  setupModal(joinModal, '.join-btn', 'Join Button -> Sign-up Open');
+
+  const joinForm = document.getElementById('joinForm');
+  wireForm(joinForm, document.getElementById('joinStatus'), "", () => {
+    document.getElementById('joinIntro').hidden = true;
+    joinForm.hidden = true;
+
+    const confirmation = document.getElementById('joinConfirmation');
+    confirmation.hidden = false;
+    joinModal.querySelector('.modal-dialog').scrollTop = 0;
+    confirmation.focus();
+  }, 0);
+}
