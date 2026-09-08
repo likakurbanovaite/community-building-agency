@@ -638,20 +638,28 @@ a { color: inherit; }
      gap   = .modal-content's padding, which is responsive, so this is too */
 .modal-dialog {
   position: relative;
+  /* one source of truth: .modal-content pads by this, and the concentric
+     border-radius below is derived from it */
+  --modal-pad: clamp(1.25rem, 4vw, 2.8rem);
   /* the width keeps a gutter on narrow screens, where max-width alone would
      let the dialog run edge to edge */
   width: calc(100% - 2rem);
   max-width: 660px;
-  margin: 5vh auto; max-height: 90vh; overflow-y: auto;
+  overflow-y: auto;
+  /* vh on iOS Safari measures the viewport with the toolbars hidden, so
+     5vh + 90vh + 5vh is taller than what is actually on screen and the submit
+     button ends up below the fold. dvh tracks the real visible height. */
+  margin: 5vh auto;  max-height: 90vh;
+  margin: 5dvh auto; max-height: 90dvh;
   background: var(--surface);
-  border-radius: calc(28px + clamp(1.8rem, 4vw, 2.8rem));
+  border-radius: calc(28px + var(--modal-pad));
   box-shadow: 0 40px 90px rgba(0,0,0,.35);
 }
 .modal-close {
   position: absolute; top: 1.2rem; right: 1.2rem; width: 40px; height: 40px; border-radius: 50%;
   border: 1px solid var(--line); background: var(--bg); font-size: 1.4rem; line-height: 1; cursor: pointer; color: var(--ink); z-index: 2;
 }
-.modal-content { padding: clamp(1.8rem, 4vw, 2.8rem); }
+.modal-content { padding: var(--modal-pad); }
 .modal-eyebrow { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--coral); font-weight: 700; margin: 0 0 .6rem; }
 .modal-content h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
 .modal-subtitle { margin: 1.8rem 0 .6rem; font-size: 1.2rem; }
@@ -743,6 +751,23 @@ fieldset.field { border: 0; padding: 0; }
   .visual-strip-grid { grid-template-columns: 1fr; }
   .visual-strip-grid img { aspect-ratio: 4 / 5; }
   .radio-grid { grid-template-columns: 1fr; }
+
+  /* Phone dialogs: use more of the screen and spend less height per row, so a
+     long form needs less scrolling to reach Submit. */
+  .modal-dialog { margin: 2dvh auto; max-height: 96dvh; }
+  .survey-form { margin-top: 1.1rem; }
+  .field { margin-bottom: 1rem; }
+  .field-label { margin-bottom: .35rem; }
+  .survey-form textarea,
+  .survey-form input[type="email"],
+  .survey-form input[type="text"] { padding: .7rem .85rem; }
+  .radio-grid { gap: .45rem; }
+  .agreement-box { max-height: 170px; padding: .85rem 1rem; margin-bottom: 1rem; }
+  .divider { margin: 1.2rem 0; }
+  .consent { margin-bottom: .9rem; }
+  .modal-content h2 { font-size: 1.5rem; }
+  .modal-body { font-size: .92rem; }
+  .btn-large { padding: .95rem 1.7rem; }
 }
 
 /* respect a reduced-motion preference: stop the drift, allow manual swiping */
