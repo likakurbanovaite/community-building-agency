@@ -42,6 +42,30 @@ faders.forEach(el => observer.observe(el));
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+/* ---------- Notice banner height ----------
+   The banner keeps its type size at every width, so on a narrow phone it wraps
+   to a second line. The sticky header sits below it and anchor offsets clear
+   both, and those read --banner-h — so it has to track the real height rather
+   than a hardcoded guess. */
+const banner = document.querySelector('.dev-banner');
+if (banner) {
+  const syncBannerHeight = () =>
+    document.documentElement.style.setProperty('--banner-h', banner.offsetHeight + 'px');
+  syncBannerHeight();
+  addEventListener('resize', syncBannerHeight);
+}
+
+/* ---------- Strategic framework accordion ----------
+   Click/tap rather than hover, so it works the same on touch devices. Several
+   can be open at once; aria-expanded carries the state for screen readers. */
+document.querySelectorAll('.framework-toggle').forEach(toggle => {
+  toggle.addEventListener('click', () => {
+    const item = toggle.closest('.framework-item');
+    const isOpen = item.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+});
+
 /* ---------- Consultation modal ----------
    Injected from here so the markup lives in one place rather than being
    duplicated across every page that has a "Book" button. */
