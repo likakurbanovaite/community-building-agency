@@ -25,8 +25,6 @@
   --grad-soft:   linear-gradient(150deg, #eef6db 0%, #e3edf7 50%, #ecf4dd 100%);
   --grad-mint:   linear-gradient(150deg, #e6f1cf, #dce9f4);
   --grad-ink:    linear-gradient(150deg, #141d44 0%, #1d2a62 60%, #243168 100%);
-  /* page backdrop — fern green (#437118) at 94% / 88% / 80% white */
-  --grad-page:   linear-gradient(150deg, #f4f6f1 0%, #e8eee3 55%, #d9e3d1 100%);
 
   --radius:   24px;
   --radius-sm:16px;
@@ -34,6 +32,7 @@
   --maxw:     1160px;
   --pad:      clamp(1.25rem, 4vw, 2.5rem);
   --header-h: 78px;
+  --banner-h: 38px;
 
   --shadow:    0 2px 6px rgba(29,42,98,.06), 0 24px 60px -20px rgba(29,42,98,.18);
   --shadow-sm: 0 1px 3px rgba(29,42,98,.06), 0 12px 30px -16px rgba(29,42,98,.15);
@@ -60,16 +59,13 @@ body {
   overflow-x: hidden;
 }
 
-/* One fixed background for the whole page, behind the transparent sections.
-   Same treatment as the CTA band (a smooth 150deg three-stop gradient) but
-   built from the fern green in the Book Consultation button, kept light
-   because the sections showing it are set in dark navy. */
+/* One single fixed background image for the whole site. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: var(--grad-page);
+  background: url("assets/bgGRAD.png") center center / cover no-repeat;
 }
 
 /* Pages that opt out of the poster and sit on flat white.
@@ -170,10 +166,42 @@ a { color: inherit; }
 .btn-large { padding: 1.1rem 2.1rem; font-size: 0.98rem; }
 .btn-full { width: 100%; }
 
+/* Temporary site-wide notice, pinned above the header. Its height is a
+   variable because the header sticks below it and anchor offsets have to
+   clear both; an explicit height keeps that number exact rather than
+   depending on padding and line-height. */
+.dev-banner {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  min-height: 38px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 .75rem;
+  margin: 0;
+  padding: .4rem .6rem;
+  background: #fff;
+  color: #d2042d;
+  font-family: var(--font-body);
+  /* same size at every width — it wraps to a second line on a very narrow
+     phone rather than shrinking, and main.js keeps --banner-h in step */
+  font-size: .7rem;
+  letter-spacing: .18em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+.dev-banner-date { opacity: .72; }
+.dev-banner-date::before { content: "·"; margin-right: .75rem; opacity: .5; }
+
 /* ---------- Header ---------- */
 .site-header {
   position: sticky;
-  top: 0;
+  top: var(--banner-h);
   z-index: 50;
   background: rgba(255,255,255,.90);
   backdrop-filter: saturate(180%) blur(16px);
@@ -351,7 +379,7 @@ a { color: inherit; }
 
 /* ---------- Sections ---------- */
 /* keeps anchored headings clear of the sticky header */
-.section, .hero { scroll-margin-top: var(--header-h); }
+.section, .hero { scroll-margin-top: calc(var(--header-h) + var(--banner-h)); }
 .section { padding: clamp(4.5rem, 9vw, 8rem) 0; position: relative; border-top: 1.5px solid rgba(255,255,255,.85); }
 .section-header { margin-bottom: 3rem; max-width: 60ch; }
 .section-header.center { margin-left: auto; margin-right: auto; text-align: center; }
@@ -368,8 +396,8 @@ a { color: inherit; }
    background to explain it. Drop the second one; the adjacent-sibling selector
    means this stops applying by itself if the sections are ever reordered. */
 #founder + #why-us { padding-top: 0; }
-/* same for the video section sitting directly above About Us */
-#intro-video + #about-us { padding-top: 0; }
+/* same for the video section sitting directly below About Us */
+#about-us + #intro-video { padding-top: 0; }
 
 /* decorative blobs — hidden site-wide (single fixed bg handles this), kept only in CTA */
 .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .7; pointer-events: none; z-index: 0; display: none; }
@@ -378,83 +406,136 @@ a { color: inherit; }
 .blob-2 { width: 420px; height: 420px; background: radial-gradient(circle, #87aece, transparent 70%); bottom: -140px; left: -90px; }
 .blob-3 { width: 380px; height: 380px; background: radial-gradient(circle, #87aece, transparent 70%); top: 30%; left: -120px; }
 
+/* ---------- Light text over the dark gradient backdrop ----------
+   Only .hero, #who-we-help and #process let bgGRAD show through, so only the
+   text sitting directly on it flips to white. Deliberately NOT set as
+   `color` on the sections themselves: each of them also contains white cards
+   (hero cards, process cards, the spheres) whose text must stay dark. */
+.hero h1,
+#who-we-help h2,
+#process h2 { color: #fff; }
+
+.hero .hero-subtitle { color: rgba(255,255,255,.84); }
+
+/* the brand gradient's green and navy stops vanish on dark green */
+.hero .grad-text { background-image: linear-gradient(120deg, #cfe9a6 0%, #bcd8f0 100%); }
+
+#who-we-help .eyebrow,
+#process .eyebrow { color: var(--mint); }
+#who-we-help .eyebrow::before,
+#process .eyebrow::before { background: linear-gradient(120deg, #afd06e, #cfe3f5); }
+
+/* the open "etc." sphere is the one tag with no white fill behind it */
+.who-tags span.who-tag-more { border-color: rgba(255,255,255,.5); color: rgba(255,255,255,.8); }
+
 /* ---------- Hero ---------- */
 .hero { position: relative; padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(4.5rem, 9vw, 7rem); overflow: hidden; }
+/* text left, moon right */
 .hero-grid {
   position: relative; z-index: 1;
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: clamp(2rem, 5vw, 4rem);
   align-items: center;
 }
 .hero-copy h1 { margin-bottom: 1.5rem; }
 .hero-subtitle { font-size: 1.18rem; color: var(--muted); max-width: 46ch; margin-bottom: 2.2rem; }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-.hero-badge {
-  display: inline-flex; align-items: center; gap: .6rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  padding: .5rem 1rem .5rem .6rem;
-  border-radius: var(--radius-pill);
-  font-size: .85rem; font-weight: 600; color: var(--ink);
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 1.6rem;
-}
-.hero-badge .dotmark { width: 22px; height: 22px; border-radius: 50%; background: var(--grad-warm); }
-
 .hero-visual { position: relative; }
-.hero-video-frame {
-  position: relative;
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  border: 6px solid #fff;
-  aspect-ratio: 4 / 5;
-  background: var(--grad-soft);
-}
-.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.hero-card {
-  position: absolute;
-  background: rgba(255,255,255,.85);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,.7);
-  border-radius: var(--radius-sm);
-  padding: 1.1rem 1.3rem;
-  box-shadow: var(--shadow);
-}
-.hero-card-main { left: -7%; bottom: 7%; max-width: 280px; }
-.card-label { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--coral); margin-bottom: .4rem; font-weight: 700; }
-.hero-card-main h3 { font-size: 1.1rem; margin-bottom: .7rem; }
-.hero-card-main p { font-size: .82rem; color: var(--muted); margin: 0 0 .5rem; }
-.hero-pills { display: flex; flex-wrap: wrap; gap: .4rem; }
-.hero-pills span { font-size: .7rem; background: linear-gradient(120deg,#eaf2d4,#e1eef6); color: #437118; padding: .3rem .7rem; border-radius: var(--radius-pill); font-weight: 600; }
-.hero-card-secondary { right: -6%; top: 6%; text-align: center; }
-.card-stat-label { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; font-weight: 600; }
-.card-stat-number { font-family: var(--font-display); font-size: 2.4rem; font-weight: 600; margin: .1rem 0; background: var(--grad-sun); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.card-stat-note { font-size: .7rem; color: var(--muted); margin: 0; max-width: 150px; }
+.hero-moon { width: 100%; max-width: 460px; height: auto; margin-left: auto; }
+
 
 /* ---------- Who We Help (marquee-ish strip) ---------- */
 .who-strip { text-align: center; max-width: 72ch; margin: 0 auto; position: relative; z-index: 1; }
-.who-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; margin-top: 1.6rem; }
-/* trailing "etc." rather than another category, so it loses the pill chrome */
+/* Eleven peers: identical diameter, identical gap. Two staggered rows on a
+   hexagonal packing — row offset is (d + gap) x sin(60deg), which makes the
+   diagonal centre distance equal the horizontal one, so the gap is the same
+   13.2px in every direction rather than just along each row.
+   The band is wide rather than square: spreading horizontally is what lets
+   each sphere reach ~220px, and in a circle the diameter is what buys
+   readable text. It breaks out past .who-strip to use the viewport width. */
+.who-tags {
+  position: relative;
+  width: min(calc((100vw - 3rem) * .85), 1180px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+  aspect-ratio: 1386 / 422;
+  margin-top: 2.8rem;
+  --sphere: 15.87%;             /* of container width */
+}
+.who-tags span {
+  --x: 50%;
+  --y: 50%;
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;       /* stacks the <br>-split label lines */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: var(--sphere);
+  aspect-ratio: 1 / 1;
+  padding: .8rem;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  font-size: clamp(.82rem, 1.3vw, 1.05rem);
+  font-weight: 600;
+  line-height: 1.35;
+  transition: scale .3s var(--ease), box-shadow .3s var(--ease);
+}
+/* top row of six */
+.who-tags span:nth-child(1)  { --x:  7.94%; --y: 26.07%; }  /* Fashion brands */
+.who-tags span:nth-child(2)  { --x: 24.76%; --y: 26.07%; }  /* Independent designers */
+.who-tags span:nth-child(3)  { --x: 41.59%; --y: 26.07%; }  /* Retailers & concept stores */
+.who-tags span:nth-child(4)  { --x: 58.41%; --y: 26.07%; }  /* Media & publishing */
+.who-tags span:nth-child(5)  { --x: 75.24%; --y: 26.07%; }  /* Creative agencies & studios */
+.who-tags span:nth-child(6)  { --x: 92.06%; --y: 26.07%; }  /* Artists */
+/* bottom row of five, offset by half a step */
+.who-tags span:nth-child(7)  { --x: 16.35%; --y: 73.93%; }  /* Creators */
+.who-tags span:nth-child(8)  { --x: 33.17%; --y: 73.93%; }  /* Personal brands */
+.who-tags span:nth-child(9)  { --x: 50.00%; --y: 73.93%; }  /* Event organisers */
+.who-tags span:nth-child(10) { --x: 66.83%; --y: 73.93%; }  /* Community-led organisations */
+.who-tags span:nth-child(11) { --x: 83.65%; --y: 73.93%; }  /* And more… */
+.who-tags span:hover { scale: 1.05; box-shadow: var(--shadow); z-index: 2; }
+
+/* trailing "etc." rather than another category — an open, dashed sphere */
 .who-tags .who-tag-more {
   background: transparent;
-  border-color: transparent;
+  border: 1px dashed rgba(29,42,98,.3);
   box-shadow: none;
   color: var(--muted);
   font-weight: 500;
 }
-.who-tags .who-tag-more:hover { transform: none; }
-.who-tags span {
-  font-size: 1rem; font-weight: 600;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  padding: .6rem 1.3rem;
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-sm);
-  transition: transform .2s var(--ease);
+.who-tags .who-tag-more:hover { scale: 1; box-shadow: none; }
+/* Narrow screens: the same hexagonal packing turned on its side — two columns
+   of 6 and 5 instead of two rows. The coordinates are literally the desktop
+   ones with x and y swapped, since a transposed hex grid keeps every gap
+   equal. Width is capped so the spheres don't balloon on a small tablet. */
+@media (max-width: 760px) {
+  .who-tags {
+    width: min(calc(100vw - 2.5rem), 340px);
+    aspect-ratio: 1918 / 6300;
+    --sphere: 52.14%;           /* of container width, 2 columns */
+  }
+  .who-tags span { font-size: clamp(.86rem, 3.4vw, 1rem); padding: .7rem; }
+  /* left column of six */
+  .who-tags span:nth-child(1)  { --x: 26.07%; --y:  7.94%; }
+  .who-tags span:nth-child(2)  { --x: 26.07%; --y: 24.76%; }
+  .who-tags span:nth-child(3)  { --x: 26.07%; --y: 41.59%; }
+  .who-tags span:nth-child(4)  { --x: 26.07%; --y: 58.41%; }
+  .who-tags span:nth-child(5)  { --x: 26.07%; --y: 75.24%; }
+  .who-tags span:nth-child(6)  { --x: 26.07%; --y: 92.06%; }
+  /* right column of five, offset by half a step */
+  .who-tags span:nth-child(7)  { --x: 73.93%; --y: 16.35%; }
+  .who-tags span:nth-child(8)  { --x: 73.93%; --y: 33.17%; }
+  .who-tags span:nth-child(9)  { --x: 73.93%; --y: 50.00%; }
+  .who-tags span:nth-child(10) { --x: 73.93%; --y: 66.83%; }
+  .who-tags span:nth-child(11) { --x: 73.93%; --y: 83.65%; }
 }
-.who-tags span:hover { transform: translateY(-3px); }
 
 /* ---------- Frameworks ---------- */
 .framework-block { text-align: center; max-width: 780px; margin: 0 auto; position: relative; z-index: 1; }
@@ -660,11 +741,24 @@ a { color: inherit; }
   max-width: 860px;
   margin: 0 auto;
   overflow: hidden;
-  box-shadow: var(--shadow);
+  /* deeper than the shared --shadow so the player lifts off the white section */
+  box-shadow: 0 5px 14px rgba(29,42,98,.16), 0 36px 80px -17px rgba(29,42,98,.5);
   background: #000;
 }
 .video-embed-ratio { position: relative; padding-top: 56.25%; }
 .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* uses the eyebrow treatment — uppercased in CSS, so the markup keeps normal
+   sentence case and screen readers don't spell it out */
+.video-caption {
+  max-width: 860px;
+  margin: 1rem auto 0;
+  text-align: center;
+  font-size: .74rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--muted);
+}
 
 /* ---------- Why us ---------- */
 /* The logo strip reuses the photo marquee (full-bleed track, two copies, -50%
@@ -821,8 +915,10 @@ fieldset.field { border: 0; padding: 0; }
    ========================================================= */
 @media (max-width: 940px) {
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-card-main { left: 0; }
-  .hero-card-secondary { right: 0; }
+  .hero-moon { margin: 0 auto; max-width: 340px; }
+  .hero-copy { text-align: center; }
+  .hero-subtitle { margin-left: auto; margin-right: auto; }
+  .hero-actions { justify-content: center; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
   .service-grid { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; }
@@ -838,7 +934,7 @@ fieldset.field { border: 0; padding: 0; }
     position: absolute; top: var(--header-h); left: 0; right: 0;
     flex-direction: column; align-items: stretch; gap: 0;
     background: var(--surface); border-bottom: 1px solid var(--line); padding: .5rem var(--pad) 1.25rem;
-    max-height: calc(100dvh - var(--header-h)); overflow-y: auto;
+    max-height: calc(100dvh - var(--header-h) - var(--banner-h)); overflow-y: auto;
     transform: translateY(-12px); opacity: 0; pointer-events: none; transition: opacity .25s var(--ease), transform .25s var(--ease);
   }
   .nav-links.open { opacity: 1; transform: none; pointer-events: auto; }
