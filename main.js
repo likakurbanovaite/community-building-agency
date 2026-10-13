@@ -78,59 +78,87 @@ document.body.insertAdjacentHTML('beforeend', `
 
       <div class="modal-content">
         <p class="modal-eyebrow">Get started</p>
-        <h2 id="consultTitle">You're one step away.</h2>
+        <h2 id="consultTitle">Let's talk about your community.</h2>
 
         <p class="modal-body">
-          Leave your details below and we'll get in touch within a week to schedule
-          your free consultation.
+          Share a few details about your enquiry, and we'll get in touch within two business
+          days to arrange your free 30-minute introductory consultation.
         </p>
 
         <form id="consultForm" class="survey-form">
           <input type="hidden" name="formType" value="consultation">
 
           <label class="field">
-            <span class="field-label">Name</span>
-            <input type="text" name="name" required placeholder="Your name" />
+            <span class="field-label">Full name *</span>
+            <input type="text" name="name" required autocomplete="name" placeholder="Your full name" />
           </label>
 
           <label class="field">
-            <span class="field-label">Email</span>
-            <input type="email" name="email" required placeholder="you@brand.com" />
+            <span class="field-label">Email *</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="you@brand.com" />
           </label>
 
           <label class="field">
-            <span class="field-label">Brand / business name</span>
-            <input type="text" name="brand" required placeholder="Your brand" />
+            <span class="field-label">Phone number *</span>
+            <input type="tel" name="phone" required autocomplete="tel" placeholder="+44 7700 900000" />
+          </label>
+
+          <label class="field">
+            <span class="field-label">Business or brand name *</span>
+            <input type="text" name="brand" required autocomplete="organization" placeholder="Your business or brand" />
+            <span class="field-hint">If you're enquiring as an individual, you can enter your personal or project name.</span>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Tell us briefly about your business or creative practice and what you'd like to discuss. *</span>
+            <textarea name="about" rows="4" required></textarea>
+          </label>
+
+          <label class="field">
+            <span class="field-label">What days and times would suit you for a call? *</span>
+            <textarea name="availability" rows="3" required></textarea>
+            <span class="field-hint">Please suggest a few options within the next two weeks and include your time zone.</span>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Website or social media <span class="field-optional">(optional)</span></span>
+            <input type="text" name="website" placeholder="Website, Instagram or other profile" />
           </label>
 
           <fieldset class="field">
-            <legend class="field-label">What best describes your role?</legend>
+            <legend class="field-label">How did you hear about us? *</legend>
             <div class="radio-grid">
-              <label><input type="radio" name="role" value="Founder" required> Founder</label>
-              <label><input type="radio" name="role" value="Marketing / Community lead"> Marketing / Community lead</label>
-              <label><input type="radio" name="role" value="Other"> Other</label>
+              <label><input type="radio" name="heardFrom" value="Search engine" required> Search engine</label>
+              <label><input type="radio" name="heardFrom" value="Instagram"> Instagram</label>
+              <label><input type="radio" name="heardFrom" value="CBA Community Event"> CBA Community Event</label>
+              <label><input type="radio" name="heardFrom" value="CBA Showcase"> CBA Showcase</label>
+              <label><input type="radio" name="heardFrom" value="Direct contact from CBA team"> Direct contact from CBA team</label>
+              <label><input type="radio" name="heardFrom" value="Word of mouth"> Word of mouth</label>
+              <label><input type="radio" name="heardFrom" value="Other"> Other</label>
             </div>
           </fieldset>
 
-          <!-- revealed only when "Other" is picked; see syncRoleOther() below -->
-          <label class="field" id="roleOtherField" hidden>
-            <span class="field-label">Tell us your role</span>
-            <input type="text" name="roleOther" placeholder="Your role" />
-          </label>
-
-          <label class="field">
-            <span class="field-label">Website or Instagram <span class="field-optional">(optional)</span></span>
-            <input type="text" name="website" placeholder="Optional" />
+          <!-- revealed only when "Other" is picked; see syncHeardOther() below -->
+          <label class="field" id="heardOtherField" hidden>
+            <input type="text" name="heardFromOther" placeholder="Tell us where" aria-label="Where did you hear about us?" />
           </label>
 
           <label class="consent">
-            <input type="checkbox" name="consent" value="yes" required>
+            <input type="checkbox" name="privacyConsent" value="yes" required>
             <span>
-              I consent to my data being stored securely and used for communication purposes.
+              I have read and acknowledge the <a href="privacypolicy.html" target="_blank" rel="noopener">Privacy Policy</a>. *
             </span>
           </label>
 
-          <button class="btn-primary btn-full btn-large" type="submit">Submit</button>
+          <label class="consent">
+            <input type="checkbox" name="marketingConsent" value="yes">
+            <span>
+              I'd like to receive occasional news, insights and updates from Community Building
+              Agency. <span class="field-optional">(Optional)</span>
+            </span>
+          </label>
+
+          <button class="btn-primary btn-full btn-large" type="submit">Request Free Consultation</button>
           <p id="consultStatus" class="form-status" aria-live="polite"></p>
         </form>
       </div>
@@ -142,24 +170,24 @@ const modal = document.getElementById('consultModal');
 const form = document.getElementById('consultForm');
 const statusEl = document.getElementById('consultStatus');
 
-/* Picking "Other" for the role reveals a free-text field. `required` is toggled
+/* Picking "Other" for how they heard about us reveals a free-text field. `required` is toggled
    with it — a required field that is hidden makes the form unsubmittable, since
    the browser cannot focus it to show the validation message. */
-const roleOtherField = document.getElementById('roleOtherField');
-const roleOtherInput = roleOtherField.querySelector('input');
+const heardOtherField = document.getElementById('heardOtherField');
+const heardOtherInput = heardOtherField.querySelector('input');
 
-function syncRoleOther() {
-  const picked = form.querySelector('[name="role"]:checked');
+function syncHeardOther() {
+  const picked = form.querySelector('[name="heardFrom"]:checked');
   const isOther = !!picked && picked.value === 'Other';
-  roleOtherField.hidden = !isOther;
-  roleOtherInput.required = isOther;
-  if (!isOther) roleOtherInput.value = '';
+  heardOtherField.hidden = !isOther;
+  heardOtherInput.required = isOther;
+  if (!isOther) heardOtherInput.value = '';
 }
 
-form.querySelectorAll('[name="role"]').forEach(radio => {
+form.querySelectorAll('[name="heardFrom"]').forEach(radio => {
   radio.addEventListener('change', () => {
-    syncRoleOther();
-    if (!roleOtherField.hidden) roleOtherInput.focus();
+    syncHeardOther();
+    if (!heardOtherField.hidden) heardOtherInput.focus();
   });
 });
 
@@ -178,7 +206,7 @@ function closeModal() {
   document.body.style.overflow = '';
   statusEl.textContent = "";
   // form.reset() fires no change event, so re-hide the conditional field here
-  syncRoleOther();
+  syncHeardOther();
 }
 
 /* Wires a dialog to the buttons that open it: click a trigger to open, click the
