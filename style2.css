@@ -816,6 +816,8 @@ a { color: inherit; }
 /* ---------- Footer ---------- */
 .footer { border-top: 1px solid var(--line); padding: 2.4rem 0; background: var(--bg); }
 .footer-meta { font-size: .88rem; color: var(--muted); margin: 0; text-align: center; }
+.footer-meta a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.footer-meta a:hover { color: var(--coral); }
 
 /* ---------- Fade-in ---------- */
 .fade-in, .fade-in-delayed { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
@@ -852,12 +854,15 @@ a { color: inherit; }
   border-radius: calc(28px + var(--modal-pad));
   box-shadow: 0 40px 90px rgba(0,0,0,.35);
 }
+/* sits inside the content padding, vertically centred on the eyebrow line:
+   the eyebrow's top is at --modal-pad and its line box is .72rem x 1.5 tall,
+   so its middle is .54rem below that; the 40px button is shifted up by half */
 .modal-close {
-  position: absolute; top: 1.2rem; right: 1.2rem; width: 40px; height: 40px; border-radius: 50%;
+  position: absolute; top: calc(var(--modal-pad) + .54rem - 20px); right: var(--modal-pad); width: 40px; height: 40px; border-radius: 50%;
   border: 1px solid var(--line); background: var(--bg); font-size: 1.4rem; line-height: 1; cursor: pointer; color: var(--ink); z-index: 2;
 }
 .modal-content { padding: var(--modal-pad); }
-.modal-eyebrow { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--coral); font-weight: 700; margin: 0 0 .6rem; }
+.modal-eyebrow { font-size: .72rem; line-height: 1.5; letter-spacing: .18em; text-transform: uppercase; color: var(--coral); font-weight: 700; margin: 0 0 .6rem; }
 .modal-content h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
 .modal-subtitle { margin: 1.8rem 0 .6rem; font-size: 1.2rem; }
 .modal-body { color: var(--muted); font-size: .98rem; }
@@ -867,11 +872,14 @@ a { color: inherit; }
 .field-label { display: block; font-size: .93rem; font-weight: 600; margin-bottom: .55rem; color: var(--ink); }
 .survey-form textarea,
 .survey-form input[type="email"],
+.survey-form input[type="tel"],
 .survey-form input[type="text"] {
   width: 100%; font: inherit; font-size: .96rem; padding: .85rem .95rem; border-radius: var(--radius-sm);
   border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); resize: vertical;
 }
 .survey-form textarea:focus, .survey-form input:focus { outline: none; border-color: var(--coral); box-shadow: 0 0 0 4px rgba(175,208,110,.32); }
+.field-hint { display: block; font-size: .84rem; color: var(--muted); margin-top: .45rem; line-height: 1.5; }
+.consent a { color: var(--coral); }
 .radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; border: 0; padding: 0; margin: 0; }
 .radio-grid label { font-size: .92rem; display: flex; align-items: center; gap: .5rem; color: var(--muted); }
 fieldset.field { border: 0; padding: 0; }
@@ -910,6 +918,17 @@ fieldset.field { border: 0; padding: 0; }
    it stays in the DOM so the aria-live announcement still works. */
 .form-status:empty { margin: 0; }
 
+/* ---------- Legal pages (Privacy Policy) ---------- */
+.legal { max-width: 760px; margin: 0 auto; color: var(--muted); line-height: 1.7; }
+.legal h2 { font-size: clamp(1.35rem, 2.4vw, 1.7rem); margin: 2.8rem 0 1rem; color: var(--ink, inherit); }
+.legal h2:first-child { margin-top: 0; }
+.legal h3 { font-size: 1.08rem; margin: 1.6rem 0 .6rem; color: var(--ink, inherit); }
+.legal p { margin-bottom: 1rem; }
+.legal ul { margin: 0 0 1.2rem; padding-left: 1.3rem; list-style: disc; }
+.legal li { margin-bottom: .4rem; }
+.legal strong { color: var(--ink, inherit); font-weight: 600; }
+.legal a { color: var(--coral); word-break: break-word; }
+
 /* =========================================================
    Responsive
    ========================================================= */
@@ -945,6 +964,9 @@ fieldset.field { border: 0; padding: 0; }
   .nav-toggle { display: flex; }
 }
 @media (max-width: 640px) {
+  /* copyright and the two policy links each on their own line; the dot separators go */
+  .footer-meta > span[aria-hidden] { display: none; }
+  .footer-meta a { display: block; margin-top: .5rem; }
   body { font-size: 16px; }
   .process-grid { grid-template-columns: 1fr; }
   .visual-strip-grid { grid-template-columns: 1fr; }
@@ -959,6 +981,7 @@ fieldset.field { border: 0; padding: 0; }
   .field-label { margin-bottom: .35rem; }
   .survey-form textarea,
   .survey-form input[type="email"],
+  .survey-form input[type="tel"],
   .survey-form input[type="text"] { padding: .7rem .85rem; }
   .radio-grid { gap: .45rem; }
   .agreement-box { max-height: 170px; padding: .85rem 1rem; margin-bottom: 1rem; }
