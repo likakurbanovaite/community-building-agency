@@ -32,6 +32,7 @@
   --maxw:     1160px;
   --pad:      clamp(1.25rem, 4vw, 2.5rem);
   --header-h: 78px;
+  --logo-mark: 32px;
   --banner-h: 38px;
 
   --shadow:    0 2px 6px rgba(29,42,98,.06), 0 24px 60px -20px rgba(29,42,98,.18);
@@ -208,11 +209,19 @@ a { color: inherit; }
   border-bottom: 1px solid var(--line);
 }
 .site-header .container { max-width: none; }
+/* the side gaps match the gap above and below the logo sphere —
+   (header height - sphere height) / 2 — at every width, so nothing jumps when
+   the burger takes over */
+.site-header .container {
+  --nav-edge: calc((var(--header-h) - var(--logo-mark)) / 2);
+  padding-left: var(--nav-edge);
+  padding-right: var(--nav-edge);
+}
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: clamp(.75rem, 3vw, 2rem); height: var(--header-h); }
 /* min-width:0 lets the logo shrink instead of pushing the burger off-screen */
 .logo { display: flex; align-items: center; gap: .7rem; min-width: 0; text-decoration: none; }
 .logo-mark {
-  width: 32px; height: 32px;
+  width: var(--logo-mark); height: var(--logo-mark);
   object-fit: contain;
   display: block;
   flex-shrink: 0;
@@ -443,6 +452,7 @@ a { color: inherit; }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 .hero-visual { position: relative; }
 .hero-moon { width: 100%; max-width: 460px; height: auto; margin-left: auto; }
+.hero-actions-below { display: none; }
 
 
 /* ---------- Who We Help (marquee-ish strip) ---------- */
@@ -938,6 +948,9 @@ fieldset.field { border: 0; padding: 0; }
   .hero-copy { text-align: center; }
   .hero-subtitle { margin-left: auto; margin-right: auto; }
   .hero-actions { justify-content: center; }
+  /* single column: the button moves below the moon */
+  .hero-copy .hero-actions { display: none; }
+  .hero-actions-below { display: flex; margin-top: 2rem; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
   .service-grid { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; }
