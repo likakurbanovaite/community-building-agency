@@ -3,7 +3,7 @@
  *
  * Both site forms POST here. They are told apart by the `formType` field:
  *   consultation   — the "Book Free Consultation" modal  -> Consultation Requests tab
- *   join-community — the Join Community sign-up modal    -> Community tab
+ *   join-community — the Join Community sign-up modal    -> Community Members tab
  *   anything else  — legacy survey submissions           -> Responses tab
  *
  * Each tab gets its own headers, written once on first use. After the row is
@@ -24,6 +24,9 @@ const OWNER_EMAIL = 'communitybuildingagency@gmail.com';
 const FROM_NAME   = 'Community Building Agency';
 const INSTAGRAM   = 'https://www.instagram.com/communitybuildingagency/';
 const WHATSAPP    = 'https://chat.whatsapp.com/Grq3hVuVmsO8xMlrnB7Ls1';
+// Instagram Community Chat invite. If this is ever emptied, the welcome email
+// leaves that button out rather than sending a dead link.
+const COMMUNITY_CHAT = 'https://ig.me/j/IQ9s54s2xTvygcPc/';
 
 const NOTIFY_OWNER      = true;   // email you on every submission
 const SEND_CONFIRMATION = true;   // email the person who submitted
@@ -38,11 +41,13 @@ const TABS = {
              'privacyConsent', 'marketingConsent']
   },
   'join-community': {
-    sheet: 'Community',
+    // new tab name: 'Community' and 'Community Sign-ups' keep the earlier forms' columns
+    sheet: 'Community Members',
     label: 'community sign-up',
-    fields: ['submittedAt', 'page', 'name', 'email', 'instagram', 'location',
-             'ageRange', 'role', 'interests',
-             'agreementConsent', 'contactConsent']
+    fields: ['submittedAt', 'page', 'name', 'email', 'instagram', 'phone',
+             'whatsappSame', 'whatsapp', 'location', 'about', 'needHelp', 'canHelp',
+             'heardFrom', 'heardFromOther',
+             'agreementConsent', 'privacyConsent', 'contactConsent']
   },
   // fallback for the old survey, so historic rows keep their existing shape
   '': {
@@ -78,7 +83,7 @@ function doPost(e) {
       if (name === 'submittedAt') {
         v = e.parameter.submittedAt || new Date().toISOString();
       } else {
-        // Checkbox groups (e.g. "interests") arrive as several values under one
+        // Checkbox groups arrive as several values under one
         // name. e.parameter returns only the first, so read e.parameters instead.
         const all = e.parameters[name];
         v = (all && all.length > 1) ? all.join(', ') : (e.parameter[name] || '');
@@ -207,76 +212,133 @@ function escapeHtml(s) {
  * as buttons, with a plain-text version for clients that refuse HTML.
  */
 function sendWelcome(to, name) {
-  const subject = 'Welcome to the CBA Community';
+  const subject = 'Welcome to the CBA Community!';
+  // the form asks for a full name; the greeting uses just the first word of it
+  name = String(name).trim().split(/\s+/)[0] || 'there';
 
-  const paras = [
-    'Welcome to the CBA Community, we’re really happy to have you here.',
+  const intro = [
+    'Welcome to the CBA Community, we’re really happy to have you here!',
     'If you haven’t already, here’s where to go next:'
   ];
 
-  const afterLinks = [
-    'The WhatsApp group is where the community lives online. Updates, conversations, ' +
-    'opportunities and connections all happen there, and it’s also where you’ll meet ' +
-    'other members directly. Keep an eye on our Instagram too, so you don’t miss events ' +
-    'and offline opportunities to meet everyone in person.',
+  // each link is followed by a line saying what it's for
+  const links = [
+    { href: COMMUNITY_CHAT, label: 'Join the Instagram Community Chat', filled: true,
+      text: 'This is our main space to connect, chat, share ideas, knowledge and useful ' +
+            'resources, ask for help, support and inspire each other, and discover new ' +
+            'opportunities together. We’ll also add you to the chat using the Instagram ' +
+            'handle you provided.' },
+    { href: INSTAGRAM, label: 'Follow us on Instagram',
+      text: 'Follow us to stay updated!' },
+    { href: WHATSAPP, label: 'Join the WhatsApp Group',
+      text: 'We also have an optional WhatsApp group for additional discussions and ' +
+            'sharing resources.' }
+  ].filter(function (l) { return l.href; });
 
-    'Once you’re in the group, introduce yourself: your name, what you do and what ' +
-    'you’re currently open to connecting around. It helps everyone get to know you, and ' +
-    'it means people will think of you when the right opportunity comes up.',
+  const introduceYourself =
+    'Once you’re in the Community Chat, introduce yourself: your name, what you do, what ' +
+    'you might need help with and how you could help others. It helps everyone get to ' +
+    'know you, and it means people will think of you when the right opportunity comes up.';
 
-    'Feel free to reach out to other members directly, just make sure to do it with ' +
-    'respect and context, this community works best when people connect thoughtfully.',
-
-    'A few things worth keeping in mind as you settle in:'
+  const values = [
+    ['Generosity & Mutual Support',
+     'Help each other when you can. Share your knowledge, time, ideas and encouragement ' +
+     'without always expecting something in return.'],
+    ['Understanding & Open-Mindedness',
+     'Welcome different backgrounds, cultures and perspectives. Be curious, respectful ' +
+     'and willing to understand each other.'],
+    ['Collectivity & Initiative',
+     'Bring forward your ideas, take action and support each other’s initiatives. ' +
+     'Everyone has something valuable to contribute, and together we can achieve more.'],
+    ['Making the World a Better Place',
+     'Even small acts of kindness, support and understanding can make a difference. We ' +
+     'hope to contribute to a more compassionate and connected world for humans.']
   ];
 
-  const bullets = [
-    'Come with a bit of generosity, share, support, offer help when you can, not just when you need something.',
-    'Respect people’s time, work and boundaries.',
-    'Credit others properly when you use or build on their ideas.',
-    'This space works best when people show up to connect and contribute, not just to promote.'
+  const encourage = [
+    'Ask for help and offer support when possible.',
+    'Share ideas, knowledge, opportunities, useful resources and your own work.',
+    'Take initiative and contribute to the Community.',
+    'Respect people’s time, boundaries and creative work.',
+    'Give credit to others for their ideas and contributions.'
   ];
 
-  const closing =
+  const dontAccept =
+    'We don’t accept discrimination, harassment, bullying, spam, unsolicited sales ' +
+    'messages, violations of privacy or taking credit for someone else’s work.';
+
+  const closing = [
+    'Remember, you’re always welcome to ask for help, including voluntary support with ' +
+    'projects or opportunities you may not have a budget for. Everyone is free to decide ' +
+    'whether and how they can help, and we ask members to respect those decisions.',
+
     'We’re building this community together, and it’s still taking shape. If there’s ' +
-    'something you’d love to see more of, an event, a type of conversation, a way for ' +
-    'members to collaborate, tell us. Some of the best parts of this community so far ' +
-    'came from members suggesting them first.';
+    'something you’d like to see happening in the Community, or if you’d like to ' +
+    'collaborate with us, let us know!',
+
+    'We want to keep communication open, so please feel free to reply to this email ' +
+    'anytime, whether you have questions, feedback, need to correct your registration ' +
+    'details, haven’t been added to the Community Chat or want to report something ' +
+    'concerning within the Community. We’re always happy to hear from you!',
+
+    'See you in the Community Chat!'
+  ];
+
+  const signOff = ['Best wishes,', 'Lika Kurbanovaite', 'Founder | Community Building Agency'];
 
   // ---- plain text ----
   const body =
     'Hi ' + name + ',\n\n' +
-    paras.join('\n\n') + '\n\n' +
-    'Join the WhatsApp Chat: ' + WHATSAPP + '\n' +
-    'Follow us on Instagram: ' + INSTAGRAM + '\n\n' +
-    afterLinks.join('\n\n') + '\n\n' +
-    bullets.map(function (b) { return '- ' + b; }).join('\n') + '\n\n' +
-    closing + '\n\n' +
-    'Talk soon,\nCBA Community';
+    intro.join('\n\n') + '\n\n' +
+    links.map(function (l) { return l.label + ': ' + l.href + '\n' + l.text; }).join('\n\n') + '\n\n' +
+    introduceYourself + '\n\n' +
+    'OUR COMMUNITY CULTURE & VALUES\n\n' +
+    values.map(function (v) { return '- ' + v[0] + ': ' + v[1]; }).join('\n') + '\n\n' +
+    'A FEW COMMUNITY GUIDELINES\n\n' +
+    'We encourage you to:\n' +
+    encourage.map(function (e) { return '- ' + e; }).join('\n') + '\n\n' +
+    dontAccept + '\n\n' +
+    closing.join('\n\n') + '\n\n' +
+    signOff.join('\n');
 
   // ---- html ----
+  // all the copy above is plain text (it contains "&"), so it's escaped on the way in
+  const p = function (t) { return para(escapeHtml(t)); };
+  const h = function (t) {
+    return '<h3 style="margin:28px 0 12px;font-size:18px;line-height:1.3;color:#1d2a62">' +
+           escapeHtml(t) + '</h3>';
+  };
+  const list = function (items) {
+    return '<ul style="margin:0 0 16px;padding-left:20px">' +
+           items.map(function (i) { return '<li style="margin-bottom:8px">' + i + '</li>'; }).join('') +
+           '</ul>';
+  };
   const btn = function (href, label, filled) {
     const style = filled
       ? 'background:#1d2a62;color:#ffffff;border:1px solid #1d2a62;'
       : 'background:#ffffff;color:#1d2a62;border:1px solid #d8dde8;';
     return '<a href="' + href + '" style="display:inline-block;padding:12px 24px;' +
-           'margin:0 8px 10px 0;border-radius:999px;text-decoration:none;' +
-           'font-weight:bold;font-size:15px;' + style + '">' + label + '</a>';
+           'border-radius:999px;text-decoration:none;' +
+           'font-weight:bold;font-size:15px;' + style + '">' + escapeHtml(label) + '</a>';
   };
 
   const htmlBody = htmlWrap(
     para('Hi ' + escapeHtml(name) + ',') +
-    paras.map(para).join('') +
-    '<p style="margin:0 0 20px">' +
-      btn(WHATSAPP, 'Join the WhatsApp Chat', true) +
-      btn(INSTAGRAM, 'Follow us on Instagram', false) +
-    '</p>' +
-    afterLinks.map(para).join('') +
-    '<ul style="margin:0 0 16px;padding-left:20px">' +
-      bullets.map(function (b) { return '<li style="margin-bottom:8px">' + b + '</li>'; }).join('') +
-    '</ul>' +
-    para(closing) +
-    para('Talk soon,<br>CBA Community')
+    intro.map(p).join('') +
+    links.map(function (l) {
+      return '<p style="margin:20px 0 10px">' + btn(l.href, l.label, l.filled) + '</p>' + p(l.text);
+    }).join('') +
+    p(introduceYourself) +
+    h('Our Community Culture & Values') +
+    list(values.map(function (v) {
+      return '<strong>' + escapeHtml(v[0]) + ':</strong> ' + escapeHtml(v[1]);
+    })) +
+    h('A Few Community Guidelines') +
+    p('We encourage you to:') +
+    list(encourage.map(escapeHtml)) +
+    p(dontAccept) +
+    closing.map(p).join('') +
+    para(signOff.map(escapeHtml).join('<br>'))
   );
 
   MailApp.sendEmail({
