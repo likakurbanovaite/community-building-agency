@@ -15,6 +15,7 @@
   --coral:     #437118;   /* fern green — text accents */
   --peach:     #87aece;   /* carolina blue */
   --rose:      #87aece;   /* carolina blue */
+  --carolina-deep: #4378a3; /* carolina blue darkened to 4.7:1 on white, for small text */
   --lav:       #1d2a62;   /* delft blue */
   --mint:      #afd06e;   /* pistachio */
   --gold:      #87aece;   /* carolina blue */
@@ -25,6 +26,8 @@
   --grad-soft:   linear-gradient(150deg, #eef6db 0%, #e3edf7 50%, #ecf4dd 100%);
   --grad-mint:   linear-gradient(150deg, #e6f1cf, #dce9f4);
   --grad-ink:    linear-gradient(150deg, #141d44 0%, #1d2a62 60%, #243168 100%);
+  /* bgGRAD's radial falloff (dark centre, lighter edges) with its stops' lightness moved onto the navy hue */
+  --grad-ink-radial: radial-gradient(ellipse at center, #101736 0%, #141d44 19%, #1f2c67 56%, #25367d 90%);
 
   --radius:   24px;
   --radius-sm:16px;
@@ -127,6 +130,9 @@ p { margin: 0 0 1rem; }
   background: var(--grad-warm);
 }
 .eyebrow.center { justify-content: center; }
+/* blue eyebrow for white sections; plain --peach is too pale to read on white */
+.eyebrow.eyebrow-blue { color: var(--carolina-deep); }
+.eyebrow.eyebrow-blue::before { background: linear-gradient(120deg, var(--carolina-deep), var(--peach)); }
 
 a { color: inherit; }
 
@@ -158,6 +164,25 @@ a { color: inherit; }
   box-shadow: 0 10px 26px -8px rgba(29,42,98,.34);
 }
 .btn-primary:hover { transform: translateY(-3px); background-position: 100% 0; box-shadow: 0 16px 34px -10px rgba(29,42,98,.4); }
+/* Join Community button: blue by default, the standard green-blue on hover.
+   background-image can't transition between gradients, so the hover one sits on
+   a ::before layer that fades in; isolation keeps that layer behind the label.
+   inset -1.5px reaches under the transparent border, like background-origin above. */
+.btn-primary.join-btn {
+  position: relative;
+  isolation: isolate;
+  background-image: linear-gradient(120deg, var(--ink) 0%, var(--carolina-deep) 50%, var(--peach) 100%);
+}
+.btn-primary.join-btn::before {
+  content: "";
+  position: absolute; inset: -1.5px; z-index: -1;
+  border-radius: inherit;
+  background: var(--grad-warm);
+  background-size: 160% 160%;
+  opacity: 0;
+  transition: opacity .28s var(--ease);
+}
+.btn-primary.join-btn:hover::before { opacity: 1; }
 .btn-outline {
   background: var(--surface);
   color: var(--ink);
@@ -198,6 +223,11 @@ a { color: inherit; }
 }
 .dev-banner-date { opacity: .72; }
 .dev-banner-date::before { content: "·"; margin-right: .75rem; opacity: .5; }
+/* Banner switched off site-wide; the markup stays on every page. Delete these
+   two rules to bring it back. --banner-h is zeroed here too so the header and
+   anchor offsets don't reserve 38px before main.js measures the (hidden) banner. */
+.dev-banner { display: none; }
+:root { --banner-h: 0px; }
 
 /* ---------- Header ---------- */
 .site-header {
@@ -287,7 +317,7 @@ a { color: inherit; }
    sit on top of the hero's bottom padding */
 .page-hero .section-header > :last-child { margin-bottom: 0; }
 /* index's .hero carries no top border; subpage heroes use .section, so drop it here.
-   #community-photos sits flush under the hero, so no divider between them either. */
+   #community-photos is a full-bleed strip with no divider above it either. */
 .page-hero, #community-photos { border-top: 0; }
 .page-hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
 .page-hero .lead { margin-top: 1.2rem; }
@@ -305,7 +335,9 @@ a { color: inherit; }
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee-scroll 70s linear infinite;
+  /* scale with the strip's length when adding photos, or the scroll speeds up
+     (it was 70s for the first 9; 120s keeps that pace with 15) */
+  animation: marquee-scroll 120s linear infinite;
 }
 /* the track holds two identical copies, so -50% lands exactly on the seam */
 @keyframes marquee-scroll {
@@ -330,6 +362,12 @@ a { color: inherit; }
 .confirmation:focus:not(:focus-visible) { outline: none; }
 .confirmation h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: .9rem; }
 .confirmation .lead { max-width: 46ch; margin: 0 auto; }
+/* multi-paragraph confirmations: buttons sit between paragraphs, each one
+   closer to the text that introduces it than to the paragraph after it */
+.confirmation .lead + .lead { margin-top: 1rem; }
+.confirmation .social-actions + .lead { margin-top: 1.8rem; }
+.confirmation .social-actions { margin-top: 1.2rem; }
+.confirmation .lead a { color: var(--coral); }
 .confirmation-icon {
   display: inline-flex; align-items: center; justify-content: center;
   width: 62px; height: 62px; border-radius: 50%;
@@ -439,7 +477,7 @@ a { color: inherit; }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(4.5rem, 9vw, 7rem); overflow: hidden; }
-/* text left, moon right */
+/* text left, globe right */
 .hero-grid {
   position: relative; z-index: 1;
   display: grid;
@@ -451,7 +489,26 @@ a { color: inherit; }
 .hero-subtitle { font-size: 1.18rem; color: var(--muted); max-width: 46ch; margin-bottom: 2.2rem; }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 .hero-visual { position: relative; }
-.hero-moon { width: 100%; max-width: 460px; height: auto; margin-left: auto; }
+/* 3D globe (globe.js): the static image shows until the canvas is ready,
+   and stays if WebGL isn't available */
+.globe-3d {
+  position: relative;
+  width: 100%; max-width: 460px; aspect-ratio: 1 / 1;
+  margin-left: auto;
+  /* drop-shadow, not box-shadow: it follows the round edge */
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,.18)) drop-shadow(0 30px 50px rgba(0,0,0,.32));
+}
+.globe-3d img,
+.globe-3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.globe-3d canvas {
+  opacity: 0; transition: opacity .6s var(--ease);
+  cursor: grab;
+  /* vertical swipes still scroll the page on phones */
+  touch-action: pan-y;
+}
+.globe-3d.is-ready canvas { opacity: 1; }
+.globe-3d.is-ready img { opacity: 0; transition: opacity .6s var(--ease); }
+.globe-3d.is-dragging canvas { cursor: grabbing; }
 .hero-actions-below { display: none; }
 
 
@@ -741,6 +798,43 @@ a { color: inherit; }
   background: var(--grad-warm); color: #fff; font-size: .8rem; font-weight: 700;
 }
 
+/* ---------- Community values & guidelines (Join Community page) ---------- */
+/* #values is a .section-cta band, so its edges separate it from the white
+   sections around it and each side keeps its normal padding.
+   Block-level eyebrows for the same half-leading reason as .page-hero .eyebrow. */
+#values, #guidelines { border-top: 0; }
+#values .eyebrow, #guidelines .eyebrow { display: flex; }
+/* .section-cta sets white text on the band; the white cards inside must stay dark */
+#values .process-step { color: var(--ink); }
+#values { background: var(--grad-ink-radial); }
+/* four values: 2x2 reads better than the 3-column process grid, which would leave one orphan */
+.values-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; }
+.guideline-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; }
+.guideline-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 2.2rem 2rem;
+  box-shadow: var(--shadow-sm);
+}
+.guideline-card h3 { margin-bottom: 1.2rem; }
+.guideline-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .8rem; }
+.guideline-list li { display: flex; align-items: flex-start; gap: .8rem; color: var(--muted); font-size: .96rem; }
+/* same badge as .benefit .tick; the top nudge centres it on the first line of a wrapped item */
+.guideline-list .tick {
+  flex: 0 0 auto;
+  width: 24px; height: 24px; border-radius: 50%; margin-top: -.05rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--grad-warm); color: #fff; font-size: .72rem; font-weight: 700;
+}
+.guideline-list .tick-no { background: var(--ink); }
+.guideline-note {
+  max-width: 1000px; margin: 1.4rem auto 0; position: relative; z-index: 1;
+  background: var(--grad-soft); border-radius: var(--radius-sm);
+  padding: 1.3rem 1.5rem; color: var(--muted); font-size: .96rem;
+}
+.guideline-note strong { color: var(--ink); }
+
 /* ---------- Embedded video ---------- */
 /* The source video is 16:9 (Vimeo's snippet shipped 75%, i.e. 4:3, which
    letterboxed it). 56.25% reserves the right height before the iframe loads,
@@ -791,7 +885,8 @@ a { color: inherit; }
 .section-cta { background: var(--grad-ink); color: #fff; position: relative; overflow: hidden; }
 .section-cta .blob { opacity: .35; }
 .section-cta .eyebrow { color: var(--peach); }
-.section-cta .eyebrow::before { background: var(--grad-sun); }
+/* all-blue dash to match the eyebrow text; light stops so it stays visible on the dark band */
+.section-cta .eyebrow::before { background: linear-gradient(120deg, var(--peach), #cfe3f5); }
 .cta-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.2rem; align-items: stretch; position: relative; z-index: 1; }
 /* Matches the height of the community photo strip (.marquee-logos aside, the
    photo strip's images use this same clamp), with the content centred in it.
@@ -944,16 +1039,17 @@ fieldset.field { border: 0; padding: 0; }
    ========================================================= */
 @media (max-width: 940px) {
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-moon { margin: 0 auto; max-width: 340px; }
+  .globe-3d { margin: 0 auto; max-width: 340px; }
   .hero-copy { text-align: center; }
   .hero-subtitle { margin-left: auto; margin-right: auto; }
   .hero-actions { justify-content: center; }
-  /* single column: the button moves below the moon */
+  /* single column: the button moves below the globe */
   .hero-copy .hero-actions { display: none; }
   .hero-actions-below { display: flex; margin-top: 2rem; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
   .service-grid { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; }
+  .guideline-grid { grid-template-columns: 1fr; }
   .founder-inner { grid-template-columns: 1fr; text-align: center; justify-items: center; }
   .cta-layout { grid-template-columns: 1fr; }
 
@@ -982,6 +1078,7 @@ fieldset.field { border: 0; padding: 0; }
   .footer-meta a { display: block; margin-top: .5rem; }
   body { font-size: 16px; }
   .process-grid { grid-template-columns: 1fr; }
+  .values-grid { grid-template-columns: 1fr; }
   .visual-strip-grid { grid-template-columns: 1fr; }
   .visual-strip-grid img { aspect-ratio: 4 / 5; }
   .radio-grid { grid-template-columns: 1fr; }
