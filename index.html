@@ -27,6 +27,11 @@
     gtag('js', new Date());
     gtag('config', 'G-X173NLXJ33');
   </script>
+
+  <!-- Three.js for the hero globe (globe.js) -->
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
 </head>
 
 <body>
@@ -73,8 +78,12 @@
         </div>
 
         <div class="hero-visual fade-in-delayed">
-          <img class="hero-moon" src="assets/moon.png" alt="" decoding="async">
-          <!-- phone/tablet copy of the button, shown below the moon instead of above it -->
+          <!-- globe.js adds the 3D canvas here; the image shows until it's ready,
+               and stays if WebGL isn't available -->
+          <div class="globe-3d" id="globe3d">
+            <img src="assets/globe100.png" alt="" decoding="async">
+          </div>
+          <!-- phone/tablet copy of the button, shown below the globe instead of above it -->
           <div class="hero-actions hero-actions-below">
             <a href="#cta" class="btn-primary book-btn">Book Free Consultation</a>
           </div>
@@ -275,19 +284,19 @@
         <div class="two-col">
           <div>
             <p class="eyebrow">Why Community?</p>
-            <h2>A living ecosystem, <span class="grad-text">not one-off campaigns.</span></h2>
+            <h2>A living ecosystem <span class="grad-text">beyond one-off campaigns.</span></h2>
             <p class="lead">
-              Instead of chasing one-off campaigns, you cultivate a living ecosystem that
-              sustains your brand - even when algorithms shift and trends move on.
+              You cultivate a living ecosystem that sustains your brand through changing trends,
+              algorithms, economic conditions and wider shifts in the world.
             </p>
           </div>
           <div>
             <div class="benefit-list">
-              <div class="benefit"><span class="tick">✓</span> More returning customers</div>
-              <div class="benefit"><span class="tick">✓</span> Higher lifetime value</div>
-              <div class="benefit"><span class="tick">✓</span> Stronger brand affinity</div>
-              <div class="benefit"><span class="tick">✓</span> Organic word-of-mouth</div>
-              <div class="benefit"><span class="tick">✓</span> A culture people choose to belong to</div>
+              <div class="benefit"><span class="tick">✓</span> Higher customer retention</div>
+              <div class="benefit"><span class="tick">✓</span> Increased customer lifetime value</div>
+              <div class="benefit"><span class="tick">✓</span> Stronger brand loyalty and advocacy</div>
+              <div class="benefit"><span class="tick">✓</span> Organic growth through word-of-mouth</div>
+              <div class="benefit"><span class="tick">✓</span> Greater long-term business resilience</div>
             </div>
           </div>
         </div>
@@ -380,5 +389,6 @@
 
   <script src="https://player.vimeo.com/api/player.js" defer></script>
   <script src="main.js" defer></script>
+  <script type="module" src="globe.js"></script>
 </body>
 </html>
