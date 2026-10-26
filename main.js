@@ -77,13 +77,15 @@ document.body.insertAdjacentHTML('beforeend', `
       <button class="modal-close" type="button" aria-label="Close" data-close="true">&times;</button>
 
       <div class="modal-content">
-        <p class="modal-eyebrow">Get started</p>
-        <h2 id="consultTitle">Let's talk about your community.</h2>
+        <div id="consultIntro">
+          <p class="modal-eyebrow">Get started</p>
+          <h2 id="consultTitle">Let's talk about your community.</h2>
 
-        <p class="modal-body">
-          Share a few details about your enquiry, and we'll get in touch within two business
-          days to arrange your free 30-minute introductory consultation.
-        </p>
+          <p class="modal-body">
+            Share a few details about your enquiry, and we'll get in touch within two business
+            days to arrange your free 30-minute introductory consultation.
+          </p>
+        </div>
 
         <form id="consultForm" class="survey-form">
           <input type="hidden" name="formType" value="consultation">
@@ -161,6 +163,26 @@ document.body.insertAdjacentHTML('beforeend', `
           <button class="btn-primary btn-full btn-large" type="submit">Request Free Consultation</button>
           <p id="consultStatus" class="form-status" aria-live="polite"></p>
         </form>
+
+        <!-- Shown in place of the form after a successful submit -->
+        <div id="consultConfirmation" class="confirmation" tabindex="-1" hidden>
+          <span class="confirmation-icon" aria-hidden="true">✓</span>
+          <h2>Thank you for your enquiry!</h2>
+          <p class="lead">We've received your request for a free 30-minute introductory consultation.</p>
+          <p class="lead">We'll be in touch via email within two business days to confirm your consultation time.</p>
+          <p class="lead">In the meantime, feel free to follow us on Instagram to stay connected and see what we're up to.</p>
+          <div class="social-actions">
+            <a class="btn-primary" href="https://www.instagram.com/communitybuildingagency/" target="_blank" rel="noopener noreferrer">
+              <img class="btn-icon" src="assets/instagram_icon.png" alt="" aria-hidden="true">
+              Follow us on Instagram
+            </a>
+          </div>
+          <p class="lead">
+            We also have a growing Community for people in fashion, creative industries and
+            business to connect and co-create. <a href="joincommunity.html">Explore and join here</a>.
+          </p>
+          <p class="lead">We look forward to learning more about you and your goals!</p>
+        </div>
       </div>
     </div>
   </div>
@@ -169,27 +191,36 @@ document.body.insertAdjacentHTML('beforeend', `
 const modal = document.getElementById('consultModal');
 const form = document.getElementById('consultForm');
 const statusEl = document.getElementById('consultStatus');
+const consultIntro = document.getElementById('consultIntro');
+const consultConfirmation = document.getElementById('consultConfirmation');
 
 /* Picking "Other" for how they heard about us reveals a free-text field. `required` is toggled
    with it — a required field that is hidden makes the form unsubmittable, since
-   the browser cannot focus it to show the validation message. */
-const heardOtherField = document.getElementById('heardOtherField');
-const heardOtherInput = heardOtherField.querySelector('input');
+   the browser cannot focus it to show the validation message.
+   Used by both forms; returns the sync function, since form.reset() fires no
+   change event and callers have to re-hide the field themselves. */
+function wireOtherField(formEl, fieldEl) {
+  const input = fieldEl.querySelector('input');
 
-function syncHeardOther() {
-  const picked = form.querySelector('[name="heardFrom"]:checked');
-  const isOther = !!picked && picked.value === 'Other';
-  heardOtherField.hidden = !isOther;
-  heardOtherInput.required = isOther;
-  if (!isOther) heardOtherInput.value = '';
+  function sync() {
+    const picked = formEl.querySelector('[name="heardFrom"]:checked');
+    const isOther = !!picked && picked.value === 'Other';
+    fieldEl.hidden = !isOther;
+    input.required = isOther;
+    if (!isOther) input.value = '';
+  }
+
+  formEl.querySelectorAll('[name="heardFrom"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      sync();
+      if (!fieldEl.hidden) input.focus();
+    });
+  });
+
+  return sync;
 }
 
-form.querySelectorAll('[name="heardFrom"]').forEach(radio => {
-  radio.addEventListener('change', () => {
-    syncHeardOther();
-    if (!heardOtherField.hidden) heardOtherInput.focus();
-  });
-});
+const syncHeardOther = wireOtherField(form, document.getElementById('heardOtherField'));
 
 function openModal() {
   modal.classList.add('is-open');
@@ -207,6 +238,10 @@ function closeModal() {
   statusEl.textContent = "";
   // form.reset() fires no change event, so re-hide the conditional field here
   syncHeardOther();
+  // after a submit the confirmation is showing; put the form back for next time
+  consultIntro.hidden = false;
+  form.hidden = false;
+  consultConfirmation.hidden = true;
 }
 
 /* Wires a dialog to the buttons that open it: click a trigger to open, click the
@@ -322,7 +357,14 @@ function wireForm(formEl, statusNode, successMsg, onSuccess, delay = 900) {
   });
 }
 
-wireForm(form, statusEl, "Thank you — submitted successfully.", closeModal);
+// On success the intro + form are replaced inside the dialog by the confirmation
+wireForm(form, statusEl, "", () => {
+  consultIntro.hidden = true;
+  form.hidden = true;
+  consultConfirmation.hidden = false;
+  modal.querySelector('.modal-dialog').scrollTop = 0;
+  consultConfirmation.focus();
+}, 0);
 
 // Join Community page: the sign-up form lives in its own modal, opened by the
 // "Join the community" buttons. On success the intro + form are replaced inside
@@ -332,7 +374,9 @@ if (joinModal) {
   setupModal(joinModal, '.join-btn', 'Join Button -> Sign-up Open');
 
   const joinForm = document.getElementById('joinForm');
+  const syncJoinHeardOther = wireOtherField(joinForm, document.getElementById('joinHeardOtherField'));
   wireForm(joinForm, document.getElementById('joinStatus'), "", () => {
+    syncJoinHeardOther();
     document.getElementById('joinIntro').hidden = true;
     joinForm.hidden = true;
 
