@@ -93,39 +93,41 @@
       </div>
     </section>
 
-    <!-- COMMUNITY PHOTO STRIP — scrolls continuously -->
+    <!-- COMMUNITY PHOTO STRIP — drifts continuously, and can be dragged or swiped (main.js) -->
     <section class="section" id="community-photos" style="padding:0;">
       <div class="marquee" role="img" aria-label="Photographs from CBA community events">
+        <!-- width/height are each file's pixel size: they give the strip its full
+             length before the photos load, which the looping in main.js relies on -->
         <div class="marquee-track">
-          <img src="assets/community/community-strip-1.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-2.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-3.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-4.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-5.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-6.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-7.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-8.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-9.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-10.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-11.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-12.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-13.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-14.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-1.jpeg" width="1280" height="854" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-2.jpeg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-3.jpg" width="1280" height="849" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-4.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-5.jpeg" width="720" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-6.jpg" width="1280" height="849" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-7.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-8.jpg" width="1280" height="855" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-9.jpeg" width="1280" height="959" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-10.jpeg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-11.jpeg" width="1280" height="960" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-12.jpeg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-13.jpeg" width="1104" height="736" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-14.jpeg" width="1280" height="720" alt="" loading="lazy" decoding="async">
           <!-- second copy makes the loop seamless — the track scrolls exactly -50% -->
-          <img src="assets/community/community-strip-1.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-2.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-3.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-4.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-5.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-6.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-7.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-8.jpg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-9.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-10.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-11.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-12.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-13.jpeg" alt="" loading="lazy" decoding="async">
-          <img src="assets/community/community-strip-14.jpeg" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-1.jpeg" width="1280" height="854" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-2.jpeg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-3.jpg" width="1280" height="849" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-4.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-5.jpeg" width="720" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-6.jpg" width="1280" height="849" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-7.jpg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-8.jpg" width="1280" height="855" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-9.jpeg" width="1280" height="959" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-10.jpeg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-11.jpeg" width="1280" height="960" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-12.jpeg" width="960" height="1280" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-13.jpeg" width="1104" height="736" alt="" loading="lazy" decoding="async">
+          <img src="assets/community/community-strip-14.jpeg" width="1280" height="720" alt="" loading="lazy" decoding="async">
         </div>
       </div>
     </section>
