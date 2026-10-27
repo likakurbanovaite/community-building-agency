@@ -66,6 +66,101 @@ document.querySelectorAll('.framework-toggle').forEach(toggle => {
   });
 });
 
+/* ---------- Community photo strip ----------
+   Drifts like the CSS marquee, but can also be dragged, swiped or scrolled
+   sideways on a trackpad, with a little inertia after a flick (the same feel
+   as the globe). Adding .is-manual stops the CSS animation, which is what runs
+   if this doesn't; its duration still sets the drift speed. The track holds two
+   identical copies, so the offset wraps at the second copy's first photo. */
+const photoStrip = document.querySelector('#community-photos .marquee');
+if (photoStrip) {
+  const track = photoStrip.querySelector('.marquee-track');
+  const photos = track.querySelectorAll('img');
+  const seam = photos[photos.length / 2];
+  const loopSeconds = parseFloat(getComputedStyle(track).animationDuration);
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FRICTION = 0.94;            // how quickly a flick slows down
+
+  photoStrip.classList.add('is-manual');
+
+  let offset = 0;                   // px moved along the strip
+  let vel = 0;                      // px per frame left over from a drag
+  let dragging = false;
+  let lastX = 0;
+  let lastMove = 0;
+  let lastTime = 0;
+  let running = false;
+  let visible = false;
+
+  function frame(now) {
+    if (!running) return;
+    // capped so a stalled frame doesn't make it jump
+    const dt = Math.min(Math.max(now - lastTime, 0), 100) / 1000;
+    lastTime = now;
+    const loop = seam.offsetLeft;
+    if (!dragging) {
+      vel *= FRICTION;
+      const drift = reduceMotion || !loopSeconds ? 0 : loop / loopSeconds * dt;
+      // drift resumes once a flick has mostly died down
+      offset += vel + (Math.abs(vel) < drift ? drift : 0);
+    }
+    if (loop > 0) offset = ((offset % loop) + loop) % loop;
+    track.style.transform = `translateX(${-offset}px)`;
+    requestAnimationFrame(frame);
+  }
+
+  function start() {
+    if (running || !visible) return;
+    running = true;
+    lastTime = performance.now();
+    requestAnimationFrame(frame);
+  }
+
+  photoStrip.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;     // leave right-click to the contextmenu handler
+    dragging = true;
+    lastX = e.clientX;
+    vel = 0;
+    photoStrip.setPointerCapture(e.pointerId);
+    photoStrip.classList.add('is-dragging');
+  });
+  photoStrip.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    vel = lastX - e.clientX;        // dragging left moves it on, the way it drifts
+    lastX = e.clientX;
+    lastMove = e.timeStamp;
+    offset += vel;
+  });
+  const endDrag = (e) => {
+    if (!dragging) return;
+    dragging = false;
+    // holding still before letting go shouldn't fling it
+    if (e.timeStamp - lastMove > 80) vel = 0;
+    photoStrip.classList.remove('is-dragging');
+  };
+  photoStrip.addEventListener('pointerup', endDrag);
+  photoStrip.addEventListener('pointercancel', endDrag);
+
+  // sideways trackpad swipes; vertical scrolling is left to the page
+  photoStrip.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    offset += e.deltaX;
+    vel = 0;
+  }, { passive: false });
+
+  // discourage saving the photos (see the CSS note); blocking dragstart also
+  // stops Firefox turning a mouse drag into dragging the image itself
+  photoStrip.addEventListener('contextmenu', (e) => e.preventDefault());
+  photoStrip.addEventListener('dragstart', (e) => e.preventDefault());
+
+  // paused while scrolled out of view
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    if (visible) start(); else running = false;
+  }).observe(photoStrip);
+}
+
 /* ---------- Consultation modal ----------
    Injected from here so the markup lives in one place rather than being
    duplicated across every page that has a "Book" button. */
