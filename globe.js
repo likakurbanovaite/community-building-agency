@@ -1,5 +1,5 @@
 /* =========================================================
-   Interactive 3D globe (home page hero, also on the UI tests page)
+   Interactive 3D globe (home page hero)
    A sphere wrapped in one 2:1 (equirectangular) photo grid. Drag sideways to
    spin it, with a little inertia; it drifts slowly on its own while idle.
    It only turns left/right: the texture's top and bottom rows get pinched into
