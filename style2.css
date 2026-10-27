@@ -325,8 +325,7 @@ a { color: inherit; }
 /* hidden must win over any display set below */
 [hidden] { display: none !important; }
 
-/* auto-scrolling community photo strip — full-bleed, same 3/4 crops as the
-   visual strip on the main page, but drifting sideways instead of static */
+/* auto-scrolling community photo strip — full-bleed, drifting sideways */
 .marquee {
   position: relative; z-index: 1;
   width: 100vw; margin-left: calc(50% - 50vw);
@@ -335,9 +334,10 @@ a { color: inherit; }
 .marquee-track {
   display: flex;
   width: max-content;
-  /* scale with the strip's length when adding photos, or the scroll speeds up
-     (it was 70s for the first 9; 120s keeps that pace with 15) */
-  animation: marquee-scroll 120s linear infinite;
+  /* scale with the strip's length when photos change, or the scroll speed
+     changes (120s suited the earlier 15 photos, ~6,800px wide at 400px tall;
+     115s keeps that pace for the current 14, ~6,500px including gaps) */
+  animation: marquee-scroll 115s linear infinite;
 }
 /* the track holds two identical copies, so -50% lands exactly on the seam */
 @keyframes marquee-scroll {
@@ -355,6 +355,12 @@ a { color: inherit; }
   max-width: none;
   display: block;
 }
+/* thin white line between photos — a fixed 2px, since scaling it down would
+   go sub-pixel and blur. A margin rather than a flex gap, so both copies stay
+   equal and -50% still lands on the seam. */
+#community-photos .marquee-track img { margin-right: 2px; }
+/* the same line under the strip, setting it off from the blue band below */
+#community-photos { border-bottom: 2px solid #fff; }
 
 /* confirmation shown in place of the sign-up form */
 .confirmation { text-align: center; }
