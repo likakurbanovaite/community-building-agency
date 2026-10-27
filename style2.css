@@ -336,7 +336,8 @@ a { color: inherit; }
   width: max-content;
   /* scale with the strip's length when photos change, or the scroll speed
      changes (120s suited the earlier 15 photos, ~6,800px wide at 400px tall;
-     115s keeps that pace for the current 14, ~6,500px including gaps) */
+     115s keeps that pace for the current 14, ~6,500px including gaps).
+     main.js reads this duration for the photo strip's JS-driven drift. */
   animation: marquee-scroll 115s linear infinite;
 }
 /* the track holds two identical copies, so -50% lands exactly on the seam */
@@ -361,6 +362,24 @@ a { color: inherit; }
 #community-photos .marquee-track img { margin-right: 2px; }
 /* the same line under the strip, setting it off from the blue band below */
 #community-photos { border-bottom: 2px solid #fff; }
+/* main.js adds .is-manual when it takes over from the CSS animation, so the
+   strip can also be dragged, swiped or trackpad-scrolled. pan-y keeps vertical
+   swipes scrolling the page on phones; overflow:hidden beats the reduced-motion
+   rule's native scrolling, which would fight the JS transform; overscroll
+   containment stops a sideways trackpad swipe from triggering browser back. */
+.marquee.is-manual {
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  overscroll-behavior-x: contain;
+  user-select: none; -webkit-user-select: none;
+}
+.marquee.is-manual .marquee-track { animation: none; will-change: transform; }
+.marquee.is-dragging { cursor: grabbing; }
+/* discourages saving the photos (main.js also blocks the right-click menu):
+   no dragging them out, no iOS long-press "Save to Photos". A deterrent only —
+   anyone determined can still take a screenshot. */
+#community-photos img { -webkit-user-drag: none; -webkit-touch-callout: none; }
 
 /* confirmation shown in place of the sign-up form */
 .confirmation { text-align: center; }
@@ -872,8 +891,11 @@ a { color: inherit; }
 
 /* ---------- Why us ---------- */
 /* The logo strip reuses the photo marquee (full-bleed track, two copies, -50%
-   scroll); it only needs a smaller image height and a quicker cycle. */
-.marquee-logos .marquee-track { animation-duration: 45s; }
+   scroll); it only needs a smaller image height and a quicker cycle.
+   logos-ual.png is drawn on the same 118px-tall canvas as logos-line.png, with
+   the strip's gap built into its padding, so the shared height keeps the two
+   in step at every size. 48s is the old 45s scaled for the longer track. */
+.marquee-logos .marquee-track { animation-duration: 48s; }
 .marquee-logos .marquee-track img { height: clamp(30px, 3.6vw, 48px); }
 
 /* ---------- Founder ---------- */
