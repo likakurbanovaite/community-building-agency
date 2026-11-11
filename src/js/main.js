@@ -27,6 +27,17 @@ navLinks.querySelectorAll('a:not(.book-btn)').forEach(link => {
   link.addEventListener('click', () => setNav(false));
 });
 
+/* ---------- Image saving ----------
+   Discourages saving the site's images: no right-click menu ("Save Image As…",
+   "Copy Image") and no dragging them out to the desktop, on every <img> and on
+   the 3D globe's <canvas> (Chrome offers "Save image" for canvases too). The
+   CSS rule on img/canvas covers iOS long-press. A deterrent only: screenshots
+   still work, and the files themselves are public. Blocking dragstart also
+   stops Firefox turning a drag on the photo strip into dragging a photo. */
+const isPicture = (el) => el instanceof Element && !!el.closest('img, canvas');
+document.addEventListener('contextmenu', (e) => { if (isPicture(e.target)) e.preventDefault(); });
+document.addEventListener('dragstart', (e) => { if (isPicture(e.target)) e.preventDefault(); });
+
 /* ---------- Fade-in on scroll ---------- */
 const faders = document.querySelectorAll('.fade-in, .fade-in-delayed');
 const observer = new IntersectionObserver(
@@ -145,11 +156,6 @@ if (photoStrip) {
     offset += e.deltaX;
     vel = 0;
   }, { passive: false });
-
-  // discourage saving the photos (see the CSS note); blocking dragstart also
-  // stops Firefox turning a mouse drag into dragging the image itself
-  photoStrip.addEventListener('contextmenu', (e) => e.preventDefault());
-  photoStrip.addEventListener('dragstart', (e) => e.preventDefault());
 
   // paused while scrolled out of view
   new IntersectionObserver(([entry]) => {
