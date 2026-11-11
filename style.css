@@ -82,6 +82,11 @@ body.page-white { background: var(--bg); }
 body.page-white::before { content: none; }
 
 img { max-width: 100%; display: block; }
+/* discourages saving the site's images (main.js also blocks the right-click
+   menu and dragging in every browser): no dragging them out in Safari/Chrome,
+   no iOS long-press "Save to Photos", no picking them up in a text selection.
+   A deterrent only — screenshots still work and the files are public. */
+img, canvas { -webkit-user-drag: none; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
 
 .container {
   width: 100%;
@@ -393,10 +398,6 @@ body:has(.notfound) main { flex: 1; display: flex; flex-direction: column; justi
 }
 .marquee.is-manual .marquee-track { animation: none; will-change: transform; }
 .marquee.is-dragging { cursor: grabbing; }
-/* discourages saving the photos (main.js also blocks the right-click menu):
-   no dragging them out, no iOS long-press "Save to Photos". A deterrent only —
-   anyone determined can still take a screenshot. */
-#community-photos img { -webkit-user-drag: none; -webkit-touch-callout: none; }
 
 /* confirmation shown in place of the sign-up form */
 .confirmation { text-align: center; }
