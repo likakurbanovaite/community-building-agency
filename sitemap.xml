@@ -2,8 +2,8 @@
 <!-- Every public page, for search engines. Add new pages here; leave out 404.html. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://communitybuildingagency.com/</loc></url>
-  <url><loc>https://communitybuildingagency.com/services.html</loc></url>
-  <url><loc>https://communitybuildingagency.com/joincommunity.html</loc></url>
-  <url><loc>https://communitybuildingagency.com/privacypolicy.html</loc></url>
-  <url><loc>https://communitybuildingagency.com/communityguidelines.html</loc></url>
+  <url><loc>https://communitybuildingagency.com/services</loc></url>
+  <url><loc>https://communitybuildingagency.com/joincommunity</loc></url>
+  <url><loc>https://communitybuildingagency.com/privacypolicy</loc></url>
+  <url><loc>https://communitybuildingagency.com/communityguidelines</loc></url>
 </urlset>
