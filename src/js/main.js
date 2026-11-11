@@ -240,7 +240,7 @@ document.body.insertAdjacentHTML('beforeend', `
           <label class="consent">
             <input type="checkbox" name="privacyConsent" value="yes" required>
             <span>
-              I have read and acknowledge the <a href="privacypolicy.html" target="_blank" rel="noopener">Privacy Policy</a>. *
+              I have read and acknowledge the <a href="privacypolicy" target="_blank" rel="noopener">Privacy Policy</a>. *
             </span>
           </label>
 
@@ -271,7 +271,7 @@ document.body.insertAdjacentHTML('beforeend', `
           </div>
           <p class="lead">
             We also have a growing Community for people in fashion, creative industries and
-            business to connect and co-create. <a href="joincommunity.html">Explore and join here</a>.
+            business to connect and co-create. <a href="joincommunity">Explore and join here</a>.
           </p>
           <p class="lead">We look forward to learning more about you and your goals!</p>
         </div>
