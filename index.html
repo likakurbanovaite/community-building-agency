@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <title>Community Building Agency | Fashion Community Strategy</title>
+  <meta name="description" content="Community Building Agency helps fashion and creative businesses build loyal, connected communities for stable revenue, sustainable growth and social impact." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Link previews (WhatsApp, LinkedIn, iMessage, Instagram DMs…) and the address
+       search engines should use. Their crawlers don't run JavaScript, so this has to
+       be written out in every page rather than added by layout.js. -->
+  <link rel="canonical" href="https://communitybuildingagency.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Community Building Agency" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:title" content="Community Building Agency | Fashion Community Strategy" />
+  <meta property="og:description" content="Community Building Agency helps fashion and creative businesses build loyal, connected communities for stable revenue, sustainable growth and social impact." />
+  <meta property="og:url" content="https://communitybuildingagency.com/" />
+  <meta property="og:image" content="https://communitybuildingagency.com/assets/cba/CBA_share.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Community Building Agency logo and name on a dark green background" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -14,19 +31,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,560;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style2.css" />
+  <link rel="stylesheet" href="style.css" />
 
   <!-- UMAMI.IS tracking -->
   <script defer src="https://cloud.umami.is/script.js" data-website-id="b16bccfe-6395-4036-8e7f-8465aa63abf2"></script>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X173NLXJ33"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-X173NLXJ33');
-  </script>
 
   <!-- Three.js for the hero globe (globe.js) -->
   <script type="importmap">
@@ -35,32 +43,8 @@
 </head>
 
 <body>
-  <!-- SITE-WIDE NOTICE -->
-  <p class="dev-banner">
-    <span>Under development</span>
-    <span class="dev-banner-date">Last update: 13 Oct 2026</span>
-  </p>
-
-  <!-- NAVBAR -->
-  <header class="site-header">
-    <div class="container nav-inner">
-      <a class="logo" href="index.html">
-        <img class="logo-mark" src="assets/CBA_sphere.png" alt="Community Building Agency">
-        <span class="logo-text">Community Building Agency</span>
-      </a>
-
-      <nav class="nav-links" id="primary-nav">
-        <a href="index.html" aria-current="page">About Us</a>
-        <a href="services.html">Services</a>
-        <a href="joincommunity.html">Our Community</a>
-        <a href="#cta" class="nav-cta book-btn">Book Free Consultation</a>
-      </nav>
-
-      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
-        <span></span><span></span>
-      </button>
-    </div>
-  </header>
+  <!-- notice banner + navbar, and the footer after <main>: see layout.js -->
+  <script src="src/js/layout.js"></script>
 
   <main>
     <!-- HERO -->
@@ -73,7 +57,7 @@
             leading to stable revenue, sustainable growth, and stronger social impact.
           </p>
           <div class="hero-actions">
-            <a href="#cta" class="btn-primary book-btn">Book Free Consultation</a>
+            <a href="#book" class="btn-primary book-btn">Book Free Consultation</a>
           </div>
         </div>
 
@@ -81,11 +65,11 @@
           <!-- globe.js adds the 3D canvas here; the image shows until it's ready,
                and stays if WebGL isn't available -->
           <div class="globe-3d" id="globe3d">
-            <img src="assets/globe100.png" alt="" decoding="async">
+            <img src="assets/cba/CBA_sphere.png" alt="" decoding="async">
           </div>
           <!-- phone/tablet copy of the button, shown below the globe instead of above it -->
           <div class="hero-actions hero-actions-below">
-            <a href="#cta" class="btn-primary book-btn">Book Free Consultation</a>
+            <a href="#book" class="btn-primary book-btn">Book Free Consultation</a>
           </div>
         </div>
       </div>
@@ -115,7 +99,7 @@
         <div class="video-embed">
           <div class="video-embed-ratio">
             <iframe
-              src="https://player.vimeo.com/video/1234386814?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+              src="https://player.vimeo.com/video/1234386814?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;dnt=1"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               title="Introduction to Community Building Agency — Lika Kurbanovaite"></iframe>
@@ -306,9 +290,9 @@
     <!-- VISUAL STRIP -->
     <section class="visual-strip section" style="padding-bottom:0;">
       <div class="visual-strip-grid fade-in">
-        <img src="assets/s2.JPG" alt="Community visual 1">
-        <img src="assets/3.png" alt="Community visual 2">
-        <img src="assets/4.JPG" alt="Community visual 3">
+        <img src="assets/home/home-imgset-1.jpg" alt="Hands cutting pictures out of fashion magazines spread across a table at a collage workshop">
+        <img src="assets/home/home-imgset-2.jpg" alt="Two guests laughing together, drinks in hand, at an evening event">
+        <img src="assets/home/home-imgset-3.jpg" alt="People working side by side on raised vegetable beds in a community garden">
       </div>
     </section>
 
@@ -322,7 +306,7 @@
         </div>
         <div class="founder-inner">
           <div class="founder-photo-wrap">
-            <img class="founder-photo" src="assets/Founder_ProfileImg.png" alt="Lika Kurbanovaite, Founder">
+            <img class="founder-photo" src="assets/cba/CBA_founder.png" alt="Lika Kurbanovaite, Founder">
           </div>
           <div class="founder-text">
             <p>
@@ -351,11 +335,9 @@
         <!-- full-bleed logo strip, scrolls continuously -->
         <div class="marquee marquee-logos" role="img" aria-label="Brands we have worked with">
           <div class="marquee-track">
-            <img src="assets/logos-line.png" alt="" decoding="async">
-            <img src="assets/logos-ual.png" alt="" decoding="async">
+            <img src="assets/home/home-logos-strip.png" alt="" decoding="async">
             <!-- second copy makes the loop seamless — the track scrolls exactly -50% -->
-            <img src="assets/logos-line.png" alt="" decoding="async">
-            <img src="assets/logos-ual.png" alt="" decoding="async">
+            <img src="assets/home/home-logos-strip.png" alt="" decoding="async">
           </div>
         </div>
       </div>
@@ -374,7 +356,7 @@
               Book your strategy session to explore what community could look like for your fashion business.
             </p>
             <div class="cta-actions">
-              <a href="#cta" class="btn-primary btn-large book-btn">Book Free Consultation</a>
+              <a href="#book" class="btn-primary btn-large book-btn">Book Free Consultation</a>
             </div>
           </div>
         </div>
@@ -382,15 +364,8 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <p class="footer-meta">© <span id="year"></span> Community Building Agency. All rights reserved. <span aria-hidden="true">·</span> <a href="communityguidelines.html">CBA Community Guidelines &amp; Terms of Participation</a> <span aria-hidden="true">·</span> <a href="privacypolicy.html">Privacy Policy</a></p>
-    </div>
-  </footer>
-
   <script src="https://player.vimeo.com/api/player.js" defer></script>
-  <script src="main.js" defer></script>
-  <script type="module" src="globe.js"></script>
+  <script src="src/js/main.js" defer></script>
+  <script type="module" src="src/js/globe.js"></script>
 </body>
 </html>
