@@ -23,7 +23,7 @@
 
   <header class="site-header">
     <div class="container nav-inner">
-      <a class="logo" href="index.html">
+      <a class="logo" href="./">
         <!-- empty alt: the text beside it already names the link, so screen
              readers would otherwise say "Community Building Agency" twice -->
         <img class="logo-mark" src="assets/cba/CBA_sphere.png" alt="">
@@ -31,9 +31,9 @@
       </a>
 
       <nav class="nav-links" id="primary-nav">
-        <a href="index.html"${current('index')}>About Us</a>
-        <a href="services.html"${current('services')}>Services</a>
-        <a href="joincommunity.html"${current('joincommunity')}>Our Community</a>
+        <a href="./"${current('index')}>About Us</a>
+        <a href="services"${current('services')}>Services</a>
+        <a href="joincommunity"${current('joincommunity')}>Our Community</a>
         <a href="#book" class="nav-cta book-btn">Book Free Consultation</a>
       </nav>
 
@@ -50,7 +50,7 @@
     document.querySelector('main').insertAdjacentHTML('afterend', `
   <footer class="footer">
     <div class="container footer-inner">
-      <p class="footer-meta">© ${new Date().getFullYear()} Community Building Agency. All rights reserved. <span aria-hidden="true">·</span> <a href="communityguidelines.html">CBA Community Guidelines &amp; Terms of Participation</a> <span aria-hidden="true">·</span> <a href="privacypolicy.html">Privacy Policy</a></p>
+      <p class="footer-meta">© ${new Date().getFullYear()} Community Building Agency. All rights reserved. <span aria-hidden="true">·</span> <a href="communityguidelines">CBA Community Guidelines &amp; Terms of Participation</a> <span aria-hidden="true">·</span> <a href="privacypolicy">Privacy Policy</a></p>
     </div>
   </footer>`);
   });
