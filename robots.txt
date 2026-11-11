@@ -1,0 +1,5 @@
+# Search engines may crawl the whole site; the page list is in the sitemap.
+User-agent: *
+Allow: /
+
+Sitemap: https://communitybuildingagency.com/sitemap.xml

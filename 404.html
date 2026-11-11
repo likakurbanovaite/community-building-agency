@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- The host shows this page at whatever broken address was asked for
+       (e.g. /services/old-page), so relative paths would point into a folder
+       that doesn't exist. <base> makes every relative path — here and in the
+       navbar/footer from layout.js — start from the site root instead. -->
+  <base href="/">
+  <title>Page not found | Community Building Agency</title>
+  <meta name="robots" content="noindex" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,560;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- UMAMI.IS tracking: records the broken address, so dead links show up in the stats -->
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="b16bccfe-6395-4036-8e7f-8465aa63abf2"></script>
+</head>
+
+<body class="page-white">
+  <!-- notice banner + navbar, and the footer after <main>: see layout.js -->
+  <script src="src/js/layout.js"></script>
+
+  <main>
+    <!-- PAGE NOT FOUND -->
+    <section class="section page-hero notfound">
+      <div class="container section-inner fade-in">
+        <div class="section-header center">
+          <p class="eyebrow center">Error 404</p>
+          <h1>We couldn&rsquo;t find that page.</h1>
+          <p class="lead">The link may be broken, or the page may have moved.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="src/js/main.js" defer></script>
+</body>
+</html>
